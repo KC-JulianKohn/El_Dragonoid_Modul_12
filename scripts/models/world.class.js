@@ -1,33 +1,6 @@
 class World {
     character = new Character();
-    enemies = [
-        new Knight(),
-        new Knight()
-
-    ];
-    backgroundObjects = [
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, -1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, -1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, -1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 0, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 0, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 0, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 1000, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 2000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 2000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 2000, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 3000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 3000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 3000, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 4000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 4000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 4000, 0),
-        new BackgroundObjekt('./assets/img/5_background/sky.png', 480, 5000, 0),
-        new BackgroundObjekt('./assets/img/5_background/mountains.png', 480, 5000, 0),
-        new BackgroundObjekt('./assets/img/5_background/ground.png', 480, 5000, 0)
-    ];
+    level = level1;
     canvas;
     ctx;
     keyboard;
@@ -50,9 +23,9 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.enemies);
 
         this.ctx.translate(-this.camera_x, 0);
 
