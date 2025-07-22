@@ -1,7 +1,9 @@
 const level1 = new Level(
     [
-        new Knight(),
-        new Knight(),
+        new Knight_1(),
+        new Knight_2(),
+        new Knight_3(),
+        new Skeleton(),
         new Endboss()
     ],
     [
