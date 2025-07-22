@@ -1,5 +1,4 @@
 class Knight extends MovableObject {
-
     images_walk = [
         './assets/img/3_enemies/night_1/1_walk/walk_00.png',
         './assets/img/3_enemies/night_1/1_walk/walk_01.png',
