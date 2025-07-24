@@ -4,6 +4,7 @@ class Character extends MovableObject {
     width = 300;
     y = 140;
     speed = 5;
+    world;
     images_walk = [
         './assets/img/2_character_dragon/2_walk/walk_00.png',
         './assets/img/2_character_dragon/2_walk/walk_01.png',
@@ -19,11 +20,24 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/2_walk/walk_11.png'
 
     ];
-    world;
+    images_dead = [
+        './assets/img/2_character_dragon/9_dead/dead_00.png',
+        './assets/img/2_character_dragon/9_dead/dead_01.png',
+        './assets/img/2_character_dragon/9_dead/dead_02.png',
+    ];
+    images_hurt = [
+        './assets/img/2_character_dragon/8_hurt/hurt_00.png',
+        './assets/img/2_character_dragon/8_hurt/hurt_01.png',
+        './assets/img/2_character_dragon/8_hurt/hurt_02.png',
+        './assets/img/2_character_dragon/8_hurt/hurt_03.png',
+    ];
+
 
     constructor() {
         super().loadImage('./assets/img/2_character_dragon/2_walk/walk_00.png');
         this.loadImages(this.images_walk);
+        this.loadImages(this.images_dead);
+        this.loadImages(this.images_hurt);
         this.animate();
     }
 
@@ -32,12 +46,12 @@ class Character extends MovableObject {
 
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
+                this.moveRight();
                 this.otherDirection = false;
             }
 
             if (this.world.keyboard.LEFT && this.x > -1000) {
-                this.x -= this.speed;
+                this.moveLeft();
                 this.otherDirection = true;
             }
             this.world.camera_x = -this.x;
@@ -45,17 +59,16 @@ class Character extends MovableObject {
 
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                this.playAnimations(this.images_walk);
+            if (this.isDead()) {
+                this.playAnimations(this.images_dead);
+            } else if (this.isHurt()) {
+                this.playAnimations(this.images_hurt);
+            } else {
+                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                    this.playAnimations(this.images_walk);
+                }
             }
         }, 150);
     }
-
-
-
-    jump() {
-
-    }
-
 
 }
