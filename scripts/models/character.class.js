@@ -1,5 +1,6 @@
 class Character extends MovableObject {
 
+    isControllable = true;
     height = 300;
     width = 300;
     y = 140;
@@ -54,30 +55,30 @@ class Character extends MovableObject {
     animate() {
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.otherDirection = false;
-            }
+            if (this.isControllable) {
+                if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+                    this.moveRight();
+                    this.otherDirection = false;
+                }
 
-            if (this.world.keyboard.LEFT && this.x > -1000) {
-                this.moveLeft();
-                this.otherDirection = true;
+                if (this.world.keyboard.LEFT && this.x > -1000) {
+                    this.moveLeft();
+                    this.otherDirection = true;
+                }
             }
             this.world.camera_x = -this.x;
         }, 1000 / 60);
 
         setInterval(() => {
             if (this.isDead()) {
-                this.playAnimations(this.images_dead);
+                this.playDeadAnimation(this.images_dead);
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimations(this.images_walk);
             } else {
                 this.playAnimations(this.images_idle);
-
             }
         }, 150);
     }
-
 }
