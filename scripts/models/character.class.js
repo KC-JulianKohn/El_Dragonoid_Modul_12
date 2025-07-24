@@ -5,7 +5,16 @@ class Character extends MovableObject {
     y = 140;
     speed = 5;
     world;
-    
+
+    images_idle = [
+        './assets/img/2_character_dragon/1_idle/idle_00.png',
+        './assets/img/2_character_dragon/1_idle/idle_01.png',
+        './assets/img/2_character_dragon/1_idle/idle_02.png',
+        './assets/img/2_character_dragon/1_idle/idle_03.png',
+        './assets/img/2_character_dragon/1_idle/idle_04.png',
+        './assets/img/2_character_dragon/1_idle/idle_05.png',
+        './assets/img/2_character_dragon/1_idle/idle_06.png'
+    ];
     images_walk = [
         './assets/img/2_character_dragon/2_walk/walk_00.png',
         './assets/img/2_character_dragon/2_walk/walk_01.png',
@@ -33,15 +42,14 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/8_hurt/hurt_03.png',
     ];
 
-
     constructor() {
         super().loadImage('./assets/img/2_character_dragon/2_walk/walk_00.png');
+        this.loadImages(this.images_idle);
         this.loadImages(this.images_walk);
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.animate();
     }
-
 
     animate() {
 
@@ -58,16 +66,16 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x;
         }, 1000 / 60);
 
-
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimations(this.images_dead);
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimations(this.images_walk);
             } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimations(this.images_walk);
-                }
+                this.playAnimations(this.images_idle);
+
             }
         }, 150);
     }

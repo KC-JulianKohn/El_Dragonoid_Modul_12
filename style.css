@@ -1,9 +1,38 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Bitcount Grid Single';
+    font-style: normal;
+    font-weight: 200;
+    src: url('./assets/fonts/bitcount-grid-single-v1-latin-regular.woff2') format('woff2');
+}
+
+
+
 body {
+    margin: 0;
+    min-height: 100vh;
+    background-image: url('./assets/img/5_background/international-mountain-day-9257122_1280.jpg');
+    background-position: center;
+    background-size: cover;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    flex-direction: column;
+    font-family: 'Bitcount Grid Single', Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    margin: 0;
+    color: black;
+    font-size: 56px;
+    text-decoration: underline;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 canvas {
-    background-color: black;
+    box-sizing: border-box;
+    border: 5px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
 }
