@@ -5,6 +5,7 @@ class Character extends MovableObject {
     y = 140;
     speed = 5;
     world;
+    
     images_walk = [
         './assets/img/2_character_dragon/2_walk/walk_00.png',
         './assets/img/2_character_dragon/2_walk/walk_01.png',

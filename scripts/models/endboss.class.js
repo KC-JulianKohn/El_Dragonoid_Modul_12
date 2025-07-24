@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
     width = 300;
     y = 140;
     
-    images_walk = [
+    images_idle = [
         './assets/img/4_enemie_boss/1_idle/idle_00.png',
         './assets/img/4_enemie_boss/1_idle/idle_01.png',
         './assets/img/4_enemie_boss/1_idle/idle_02.png',
@@ -16,14 +16,14 @@ class Endboss extends MovableObject {
 
     constructor() {
         super().loadImage('./assets/img/4_enemie_boss/1_idle/idle_00.png');
-        this.loadImages(this.images_walk);
+        this.loadImages(this.images_idle);
         this.x = 4500;
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.playAnimations(this.images_walk);
+            this.playAnimations(this.images_idle);
         }, 250);
     }
 }
