@@ -13,21 +13,26 @@ class MovableObject extends DrawableObject {
     }
 
     playDeadAnimation(images) {
+        this.playAnimationOnce(images, () => {
+            setTimeout(() => {
+                this.y += 1000;
+            }, 5000);
+        });
+    }
+
+    playAnimationOnce(images,  callback) {
         this.isControllable = false;
-        if (!this.deadAnimationPlayed) {
-            this.deadAnimationPlayed = true;
+        if (!this.animationPlayedOnce) {
+            this.animationPlayedOnce = true;
 
             let i = 0;
             let interval = setInterval(() => {
                 if (i < images.length) {
-                    let path = images[i];
-                    this.img = this.imageCache[path];
+                    this.img = this.imageCache[images[i]];
                     i++;
                 } else {
                     clearInterval(interval);
-                    setTimeout(() => {
-                        this.y += 1000;
-                    }, 5000);
+                    if (callback) callback(); 
                 }
             }, 150);
         }
@@ -42,10 +47,10 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x &&
-            this.y < mo.y + mo.height
+        return this.x + this.width - this.hitbox.right > mo.x + mo.hitbox.left &&
+            this.y + this.height - this.hitbox.bottom > mo.y + mo.hitbox.top &&
+            this.x + this.hitbox.left < mo.x + mo.width - mo.hitbox.right &&
+            this.y + this.hitbox.top < mo.y + mo.height - mo.hitbox.bottom
     }
 
     hit() {

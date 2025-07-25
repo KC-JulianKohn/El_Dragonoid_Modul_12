@@ -6,7 +6,6 @@ class HealthBar extends DrawableObject{
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_60.png',
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_80.png',
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_100.png',
-
     ];
     percentage = 100;
 

@@ -1,4 +1,12 @@
 class Knight_3 extends MovableObject {
+
+    hitbox = {
+        left: 50,
+        right: 0,
+        top: 50,
+        bottom: 0
+    };
+
     images_walk = [
         './assets/img/3_enemies/night_3/1_walk/walk_00.png',
         './assets/img/3_enemies/night_3/1_walk/walk_01.png',
@@ -9,12 +17,21 @@ class Knight_3 extends MovableObject {
         './assets/img/3_enemies/night_3/1_walk/walk_06.png',
         './assets/img/3_enemies/night_3/1_walk/walk_07.png'
     ];
+    images_dead = [
+        './assets/img/3_enemies/night_3/2_dead/dead_00.png',
+        './assets/img/3_enemies/night_3/2_dead/dead_01.png',
+        './assets/img/3_enemies/night_3/2_dead/dead_02.png',
+        './assets/img/3_enemies/night_3/2_dead/dead_03.png',
+        './assets/img/3_enemies/night_3/2_dead/dead_04.png',
+        './assets/img/3_enemies/night_3/2_dead/dead_05.png'
+    ];
 
 
     constructor() {
         super().loadImage('./assets/img/3_enemies/night_3/1_walk/walk_00.png');
+        this.loadImages(this.images_dead);
         this.loadImages(this.images_walk);
-        this.x = 250 + Math.random() * 400;
+        this.x = 450 + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
         this.animate();
     }

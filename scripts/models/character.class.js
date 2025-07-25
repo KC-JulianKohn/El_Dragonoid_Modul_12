@@ -7,6 +7,13 @@ class Character extends MovableObject {
     speed = 5;
     world;
 
+    hitbox = {
+        left: 30,
+        right: 30,
+        top: 190,
+        bottom: 0
+    };
+
     images_idle = [
         './assets/img/2_character_dragon/1_idle/idle_00.png',
         './assets/img/2_character_dragon/1_idle/idle_01.png',
@@ -29,7 +36,12 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/2_walk/walk_09.png',
         './assets/img/2_character_dragon/2_walk/walk_10.png',
         './assets/img/2_character_dragon/2_walk/walk_11.png'
-
+    ];
+    images_bite_attack = [
+        './assets/img/2_character_dragon/7_bite_attack/bite_attack_00.png',
+        './assets/img/2_character_dragon/7_bite_attack/bite_attack_01.png',
+        './assets/img/2_character_dragon/7_bite_attack/bite_attack_02.png',
+        './assets/img/2_character_dragon/7_bite_attack/bite_attack_03.png'
     ];
     images_dead = [
         './assets/img/2_character_dragon/9_dead/dead_00.png',
@@ -47,6 +59,7 @@ class Character extends MovableObject {
         super().loadImage('./assets/img/2_character_dragon/2_walk/walk_00.png');
         this.loadImages(this.images_idle);
         this.loadImages(this.images_walk);
+        this.loadImages(this.images_bite_attack);
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.animate();
@@ -60,7 +73,6 @@ class Character extends MovableObject {
                     this.moveRight();
                     this.otherDirection = false;
                 }
-
                 if (this.world.keyboard.LEFT && this.x > -1000) {
                     this.moveLeft();
                     this.otherDirection = true;

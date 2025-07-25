@@ -39,7 +39,7 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthBar);
         this.ctx.translate(this.camera_x, 0);
-        
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
 
@@ -65,6 +65,8 @@ class World {
 
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawFrameHitBox(this.ctx);
+
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);
