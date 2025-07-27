@@ -1,9 +1,9 @@
 class Knight_1 extends MovableObject {
 
     hitbox = {
-        left: 50,
-        right: 0,
-        top: 50,
+        left: 55,
+        right: 5,
+        top: 55,
         bottom: 0
     };
 
@@ -38,12 +38,16 @@ class Knight_1 extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if (!this.isDead()) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            this.playAnimations(this.images_walk);
+            if (this.isDead()) {
+                this.playDeadAnimation(this.images_dead);
+            } else
+                this.playAnimations(this.images_walk);
         }, 250);
     }
-
 }

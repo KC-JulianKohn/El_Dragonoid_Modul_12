@@ -23,12 +23,15 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
+                if (!this.character.isAttacking && !enemy.isDead() && this.character.isColliding(enemy)) {
                     this.character.hit();
                     this.healthBar.setPercentage(this.character.health);
                 }
+                if (this.character.isAttacking && this.character.isColliding(enemy)) {
+                    enemy.hit();
+                }
             });
-        }, 1000);
+        }, 500);
     }
 
     draw() {

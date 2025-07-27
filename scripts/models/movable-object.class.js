@@ -1,7 +1,7 @@
 class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
-    health = 100;
+    health = 5;
     lastHit = 0;
 
 
@@ -10,14 +10,6 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
-    }
-
-    playDeadAnimation(images) {
-        this.playAnimationOnce(images, () => {
-            setTimeout(() => {
-                this.y += 1000;
-            }, 5000);
-        });
     }
 
     playAnimationOnce(images,  callback) {
@@ -36,6 +28,14 @@ class MovableObject extends DrawableObject {
                 }
             }, 150);
         }
+    }
+
+    playDeadAnimation(images) {
+        this.playAnimationOnce(images, () => {
+            setTimeout(() => {
+                this.y += 1000;
+            }, 3000);
+        });
     }
 
     moveRight() {
@@ -59,7 +59,7 @@ class MovableObject extends DrawableObject {
             this.health = 0;
         } else {
             this.lastHit = new Date().getTime();
-        }
+        }        
     }
 
     isHurt() {

@@ -5,9 +5,9 @@ class Skeleton extends MovableObject {
     y = 290;
 
     hitbox = {
-        left: 20,
-        right: 30,
-        top: 35,
+        left: 30,
+        right: 40,
+        top: 40,
         bottom: 0
     };
 
@@ -40,12 +40,17 @@ class Skeleton extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.moveLeft();
+            if (!this.isDead()) {
+                this.moveLeft();
+            }
         }, 1000 / 60);
 
         setInterval(() => {
-            this.playAnimations(this.images_walk);
-        }, 250);
+            if (this.isDead()) {
+                this.playDeadAnimation(this.images_dead);
+            } else
+                this.playAnimations(this.images_walk);
+            }, 250);
     }
 
 }

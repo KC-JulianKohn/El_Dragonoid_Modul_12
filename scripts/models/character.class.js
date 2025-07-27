@@ -5,11 +5,12 @@ class Character extends MovableObject {
     width = 300;
     y = 140;
     speed = 5;
+    health = 100;
     world;
 
     hitbox = {
-        left: 30,
-        right: 30,
+        left: 40,
+        right: 40,
         top: 190,
         bottom: 0
     };
@@ -88,9 +89,31 @@ class Character extends MovableObject {
                 this.playAnimations(this.images_hurt);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimations(this.images_walk);
+            } else if (this.world.keyboard.SPACE) {
+                this.playBitAttackAnimation(this.images_bite_attack);
             } else {
                 this.playAnimations(this.images_idle);
             }
         }, 150);
+    }
+
+    playBitAttackAnimation(images) {
+        if (!this.attackCooldown) { this.attackCooldown = 1500; }
+        if (!this.lastAttackTime) { this.lastAttackTime = 0; }
+        const now = Date.now();
+        if (now - this.lastAttackTime < this.attackCooldown) return;
+        this.lastAttackTime = now;
+        this.isAttacking = true;
+
+        this.originalHitbox = { ...this.hitbox };
+
+        this.hitbox.right = this.originalHitbox.left - 30;
+
+        this.playAnimationOnce(images, () => {
+            this.animationPlayedOnce = false;
+            this.isControllable = true;
+            this.hitbox = this.originalHitbox;
+            this.isAttacking = false;
+        });
     }
 }
