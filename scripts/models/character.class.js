@@ -78,6 +78,9 @@ class Character extends MovableObject {
                     this.moveLeft();
                     this.otherDirection = true;
                 }
+                if (this.x >= this.world.level.level_end_x) {
+                    this.x -= 2;
+                }
             }
             this.world.camera_x = -this.x;
         }, 1000 / 60);

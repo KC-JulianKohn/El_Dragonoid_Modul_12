@@ -3,7 +3,13 @@ class Endboss extends MovableObject {
     height = 300;
     width = 300;
     y = 140;
-    health = 20;
+    x = 5250;
+    health = 30;
+    speed = 0.5;
+    spawnTime = new Date().getTime();
+    playMoveSetRun = false;
+    activated = false;
+
 
 
     hitbox = {
@@ -22,6 +28,31 @@ class Endboss extends MovableObject {
         './assets/img/4_enemie_boss/1_idle/idle_05.png',
         './assets/img/4_enemie_boss/1_idle/idle_06.png'
     ];
+    images_walk = [
+        './assets/img/4_enemie_boss/5_walk/walk_00.png',
+        './assets/img/4_enemie_boss/5_walk/walk_01.png',
+        './assets/img/4_enemie_boss/5_walk/walk_02.png',
+        './assets/img/4_enemie_boss/5_walk/walk_03.png',
+        './assets/img/4_enemie_boss/5_walk/walk_04.png',
+        './assets/img/4_enemie_boss/5_walk/walk_05.png'
+    ];
+    images_attack = [
+        './assets/img/4_enemie_boss/2_attack/attack_01.png',
+        './assets/img/4_enemie_boss/2_attack/attack_02.png',
+        './assets/img/4_enemie_boss/2_attack/attack_03.png',
+        './assets/img/4_enemie_boss/2_attack/attack_04.png',
+        './assets/img/4_enemie_boss/2_attack/attack_05.png',
+        './assets/img/4_enemie_boss/2_attack/attack_06.png',
+        './assets/img/4_enemie_boss/2_attack/attack_07.png',
+        './assets/img/4_enemie_boss/2_attack/attack_08.png',
+        './assets/img/4_enemie_boss/2_attack/attack_09.png',
+        './assets/img/4_enemie_boss/2_attack/attack_10.png',
+        './assets/img/4_enemie_boss/2_attack/attack_11.png',
+        './assets/img/4_enemie_boss/2_attack/attack_12.png',
+        './assets/img/4_enemie_boss/2_attack/attack_13.png',
+        './assets/img/4_enemie_boss/2_attack/attack_14.png'
+    ];
+
     images_hurt = [
         './assets/img/4_enemie_boss/3_hurt/hurt_00.png',
         './assets/img/4_enemie_boss/3_hurt/hurt_01.png',
@@ -40,9 +71,10 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('./assets/img/4_enemie_boss/1_idle/idle_00.png');
         this.loadImages(this.images_idle);
+        this.loadImages(this.images_walk);
+        this.loadImages(this.images_attack);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_dead);
-        this.x = 4500;
         this.animate();
     }
 
@@ -53,7 +85,90 @@ class Endboss extends MovableObject {
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);
             } else
-                this.playAnimations(this.images_idle);
+                switch (this.currentPhase) {
+                    case 'pause':
+                        this.playAnimations(this.images_idle);
+                        break;
+                    case 'move':
+                        this.playAnimations(this.images_walk);
+                        break;
+                    case 'attack':
+                        break;
+                    default:
+                        this.playAnimations(this.images_idle);
+                        break;
+                }
         }, 250);
+    }
+
+    checkActivation(character) {
+        if (this.activated) return;
+
+        let timePassed = new Date().getTime() - this.spawnTime;
+
+        if (this.x - character.x <= 650 || timePassed >= 5 * 60 * 1000) {
+            this.activated = true;
+            this.playMoveSet();
+        }
+    }
+
+    playMoveSet() {
+        if (this.playMoveSetRun) return;
+
+        this.playMoveSetRun = true;
+
+        this.pausePhase(5000, () => {
+            this.attackPhase(() => {
+                this.movePhase(() => {
+                    this.attackPhase(() => {
+                        this.playMoveSetRun = false;
+                        this.playMoveSet();
+                    });
+                });
+            });
+        });
+    }
+
+    pausePhase(duration, callback) {
+        this.currentPhase = 'pause';
+        setTimeout(() => {
+            callback();
+        }, duration);
+    }
+
+    movePhase(callback) {
+        this.currentPhase = 'move';
+        let distanceMoved = 0;
+
+        let interval = setInterval(() => {
+            if (this.isDead()) {
+                clearInterval(interval);
+                return;
+            }
+
+            if (this.isHurt()) return;
+
+            this.moveLeft();
+            distanceMoved += this.speed;
+
+            if (distanceMoved >= 150) {
+                clearInterval(interval);
+                callback();
+            }
+        }, 1000 / 60);
+    }
+
+    attackPhase(callback) {
+        this.currentPhase = 'attack';
+        this.isAttacking = true;
+        this.originalHitbox = { ...this.hitbox };
+        this.hitbox.left = this.originalHitbox.right - 55;
+
+        this.playAnimationOnce(this.images_attack, () => {
+            this.hitbox = this.originalHitbox;
+            this.animationPlayedOnce = false;
+            this.isAttacking = false;
+            if (callback) callback();
+        });
     }
 }

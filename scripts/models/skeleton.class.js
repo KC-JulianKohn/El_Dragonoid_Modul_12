@@ -3,6 +3,7 @@ class Skeleton extends MovableObject {
     height = 150;
     width = 150;
     y = 290;
+    health = 10;
 
     hitbox = {
         left: 30,
@@ -20,6 +21,11 @@ class Skeleton extends MovableObject {
         './assets/img/3_enemies/skeleton/1_walk/walk_05.png',
         './assets/img/3_enemies/skeleton/1_walk/walk_06.png'
     ];
+    images_hurt = [
+        './assets/img/3_enemies/skeleton/3_hurt/hurt_00.png',
+        './assets/img/3_enemies/skeleton/3_hurt/hurt_01.png',
+        './assets/img/3_enemies/skeleton/3_hurt/hurt_02.png'
+    ];
     images_dead = [
         './assets/img/3_enemies/skeleton/2_dead/dead_00.png',
         './assets/img/3_enemies/skeleton/2_dead/dead_01.png',
@@ -29,11 +35,12 @@ class Skeleton extends MovableObject {
     ];
 
 
-    constructor() {
+    constructor(x) {
         super().loadImage('./assets/img/3_enemies/skeleton/1_walk/walk_00.png');
         this.loadImages(this.images_dead);
         this.loadImages(this.images_walk);
-        this.x = 450 + Math.random() * 800;
+        this.loadImages(this.images_hurt);
+        this.x = x + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
         this.animate();
     }
@@ -48,9 +55,11 @@ class Skeleton extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
+            } else if (this.isHurt()) {
+                this.playAnimations(this.images_hurt);
             } else
                 this.playAnimations(this.images_walk);
-            }, 250);
+        }, 250);
     }
 
 }

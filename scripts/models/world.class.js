@@ -27,8 +27,12 @@ class World {
                     this.character.hit();
                     this.healthBar.setPercentage(this.character.health);
                 }
-                if (this.character.isAttacking && this.character.isColliding(enemy)) {
-                    enemy.hit();
+                if (this.character.isAttacking && this.character.isColliding(enemy) && !enemy.isHurt() && !enemy.isAttacking) {
+                    enemy.hit();                    
+                }
+                if (enemy instanceof Endboss) {
+                    enemy.checkActivation(this.character);
+                    this.level.level_end_x = enemy.x - 230;
                 }
             });
         }, 500);

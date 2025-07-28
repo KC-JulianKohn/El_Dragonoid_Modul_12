@@ -27,11 +27,11 @@ class Knight_2 extends MovableObject {
     ];
 
 
-    constructor() {
+    constructor(x) {
         super().loadImage('./assets/img/3_enemies/night_2/1_walk/walk_00.png');
         this.loadImages(this.images_dead);
         this.loadImages(this.images_walk);
-        this.x = 450 + Math.random() * 800;
+        this.x = x + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
         this.animate();
     }
