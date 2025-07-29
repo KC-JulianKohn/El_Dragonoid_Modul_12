@@ -14,6 +14,12 @@ class DrawableObject {
         bottom: 0
     };
 
+    counters = {
+        kills: 0,
+        gold: 0,
+        food: 0
+    };
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -29,6 +35,17 @@ class DrawableObject {
             img.src = path;
             this.imageCache[path] = img;
         });
+    }
+
+    increaseCounter(type, amount) {
+        this.counters[type] += amount;
+    }
+
+    decreaseCounter(type, amount) {
+        this.counters[type] -= amount;
+        if (this.counters[type] < 0) {
+            this.counters[type] = 0;
+        }
     }
 
     drawFrame(ctx) {

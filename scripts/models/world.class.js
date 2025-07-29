@@ -7,26 +7,20 @@ class World {
     camera_x = 0;
     healthBar = new HealthBar();
 
-    counters = {
-        kills: 0,
-        gold: 0,
-        food: 0
-    };
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.checkAll();
     }
 
     setWorld() {
         this.character.world = this;
     }
 
-    checkCollisions() {
+    checkAll() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (!this.character.isAttacking && !enemy.isDead() && this.character.isColliding(enemy)) {
@@ -38,9 +32,9 @@ class World {
                 }
                 if (enemy.isDead() && !enemy.countedAsKill) {
                     enemy.countedAsKill = true;
-                    this.increaseCounter("kills", 1)
+                    this.character.increaseCounter("kills", 1)
                     
-                    console.log(this.counters.kills);
+                    console.log(this.character.counters.kills);
                 }
                 if (enemy instanceof Endboss) {
                     enemy.checkActivation(this.character);
@@ -103,16 +97,4 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
-    increaseCounter(type, amount) {
-        this.counters[type] += amount;
-    }
-
-    decreaseCounter(type, amount) {
-        this.counters[type] -= amount;
-        if (this.counters[type] < 0) {
-            this.counters[type] = 0;
-        }
-    }
-
 }
