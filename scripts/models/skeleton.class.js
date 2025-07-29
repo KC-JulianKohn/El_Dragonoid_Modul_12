@@ -51,7 +51,7 @@ class Skeleton extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
             }
         }, 1000 / 60);

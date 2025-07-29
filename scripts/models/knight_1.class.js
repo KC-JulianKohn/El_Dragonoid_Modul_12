@@ -41,7 +41,7 @@ class Knight_1 extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.isDead() && this.x - this.world.character.x <= 800) {
+            if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
             }
         }, 1000 / 60);
