@@ -19,6 +19,12 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach(enemy => {
+            enemy.world = this;
+            if (typeof enemy.start === 'function') {
+                enemy.start();
+            }
+        });
     }
 
     checkAll() {
@@ -64,9 +70,7 @@ class World {
 
 
         let self = this
-        requestAnimationFrame(function () {
-            self.draw();
-        });
+        requestAnimationFrame(function () { self.draw(); });
     }
 
     addObjectsToMap(objects) {

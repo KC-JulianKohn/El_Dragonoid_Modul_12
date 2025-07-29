@@ -33,6 +33,9 @@ class Knight_3 extends MovableObject {
         this.loadImages(this.images_walk);
         this.x = x + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
+    }
+
+    start() {
         this.animate();
     }
 
@@ -48,7 +51,7 @@ class Knight_3 extends MovableObject {
                 this.playDeadAnimation(this.images_dead);
             } else
                 this.playAnimations(this.images_walk);
-            }, 250);
+        }, 250);
     }
 
 }

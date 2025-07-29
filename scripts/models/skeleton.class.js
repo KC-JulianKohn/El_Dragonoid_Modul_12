@@ -43,6 +43,9 @@ class Skeleton extends MovableObject {
         this.loadImages(this.images_hurt);
         this.x = x + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
+    }
+
+    start() {
         this.animate();
     }
 

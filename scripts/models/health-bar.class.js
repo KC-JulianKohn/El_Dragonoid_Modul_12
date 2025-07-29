@@ -1,4 +1,4 @@
-class HealthBar extends DrawableObject{
+class HealthBar extends DrawableObject {
     images_healthbar = [
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_00.png',
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_20.png',
@@ -39,5 +39,15 @@ class HealthBar extends DrawableObject{
         } else {
             return 0;
         }
+    }
+
+    draw(ctx) {
+        super.draw(ctx);
+
+        ctx.font = '16px Bitcount Grid Single';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+
+        ctx.fillText(`${this.percentage}`, this.x + 165, this.y + 45 );
     }
 }

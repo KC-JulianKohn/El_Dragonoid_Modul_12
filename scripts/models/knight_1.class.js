@@ -33,12 +33,15 @@ class Knight_1 extends MovableObject {
         this.loadImages(this.images_walk);
         this.x = x + Math.random() * 800;
         this.speed = 0.15 + Math.random() * 0.35;
+    }
+
+    start() {
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && this.x - this.world.character.x <= 800) {
                 this.moveLeft();
             }
         }, 1000 / 60);
