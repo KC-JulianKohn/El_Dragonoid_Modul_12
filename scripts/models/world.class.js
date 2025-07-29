@@ -6,6 +6,7 @@ class World {
     keyboard;
     camera_x = 0;
     healthBar = new HealthBar();
+    bossBar = new BossBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -33,11 +34,13 @@ class World {
                 if (enemy.isDead() && !enemy.countedAsKill) {
                     enemy.countedAsKill = true;
                     this.character.increaseCounter("kills", 1)
-                    
+
                     console.log(this.character.counters.kills);
                 }
                 if (enemy instanceof Endboss) {
                     enemy.checkActivation(this.character);
+                    this.bossBar.updatePosition(enemy);
+                    this.bossBar.setPercentage(enemy.health);
                     this.level.level_end_x = enemy.x - 230;
                 }
             });
@@ -55,6 +58,7 @@ class World {
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
+        this.addToMap(this.bossBar);
 
         this.ctx.translate(-this.camera_x, 0);
 
