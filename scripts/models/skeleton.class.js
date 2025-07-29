@@ -4,6 +4,7 @@ class Skeleton extends MovableObject {
     width = 150;
     y = 290;
     health = 10;
+    damage = 10;
 
     hitbox = {
         left: 30,

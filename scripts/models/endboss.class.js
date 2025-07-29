@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
     y = 140;
     x = 5250;
     health = 30;
+    damage = 15;
     speed = 0.5;
     spawnTime = new Date().getTime();
     playMoveSetRun = false;

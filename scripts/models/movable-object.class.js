@@ -3,6 +3,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     health = 5;
     lastHit = 0;
+    damage = 5;
 
 
     playAnimations(images) {
@@ -53,8 +54,8 @@ class MovableObject extends DrawableObject {
             this.y + this.hitbox.top < mo.y + mo.height - mo.hitbox.bottom
     }
 
-    hit() {
-        this.health -= 5;
+    hit(damage) {
+        this.health -= damage;
         if (this.health < 0) {
             this.health = 0;
         } else {
@@ -65,7 +66,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 3;
+        return timepassed < 2;
     }
 
     isDead() {
