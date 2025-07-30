@@ -41,7 +41,7 @@ class World {
                     enemy.countedAsKill = true;
                     this.character.increaseCounter("kills", 1)
 
-                    console.log(this.character.counters.kills);
+                    console.log("kills:" + this.character.counters.kills);
                 }
                 if (enemy instanceof Endboss) {
                     enemy.checkActivation(this.character);
@@ -50,6 +50,28 @@ class World {
                     this.level.level_end_x = enemy.x - 230;
                 }
             });
+
+            this.level.coins.forEach((coin) => {
+                if (this.character.isColliding(coin)) {
+                    coin.y += 3000;
+                    this.character.increaseCounter("gold", 1);
+
+                    console.log("gold:" + this.character.counters.gold);
+
+                }
+            });
+
+            this.level.food.forEach((food) => {
+                if (this.character.isColliding(food)) {
+                    food.y += 3000;
+                    this.character.increaseCounter("food", 1);
+
+                    console.log("food:" + this.character.counters.food);
+
+                }
+            });
+
+
         }, 500);
     }
 
@@ -57,6 +79,8 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.food);
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthBar);

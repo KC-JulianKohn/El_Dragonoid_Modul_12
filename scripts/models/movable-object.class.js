@@ -34,7 +34,7 @@ class MovableObject extends DrawableObject {
     playDeadAnimation(images) {
         this.playAnimationOnce(images, () => {
             setTimeout(() => {
-                this.y += 1000;
+                this.y += 3000;
             }, 3000);
         });
     }
@@ -45,13 +45,6 @@ class MovableObject extends DrawableObject {
 
     moveLeft() {
         this.x -= this.speed;
-    }
-
-    isColliding(mo) {
-        return this.x + this.width - this.hitbox.right > mo.x + mo.hitbox.left &&
-            this.y + this.height - this.hitbox.bottom > mo.y + mo.hitbox.top &&
-            this.x + this.hitbox.left < mo.x + mo.width - mo.hitbox.right &&
-            this.y + this.hitbox.top < mo.y + mo.height - mo.hitbox.bottom
     }
 
     hit(damage) {

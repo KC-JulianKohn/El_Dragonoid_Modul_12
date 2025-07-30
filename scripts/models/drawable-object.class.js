@@ -37,6 +37,13 @@ class DrawableObject {
         });
     }
 
+    isColliding(mo) {
+        return this.x + this.width - this.hitbox.right > mo.x + mo.hitbox.left &&
+            this.y + this.height - this.hitbox.bottom > mo.y + mo.hitbox.top &&
+            this.x + this.hitbox.left < mo.x + mo.width - mo.hitbox.right &&
+            this.y + this.hitbox.top < mo.y + mo.height - mo.hitbox.bottom
+    }
+
     increaseCounter(type, amount) {
         this.counters[type] += amount;
     }
@@ -59,7 +66,7 @@ class DrawableObject {
     }
 
     drawFrameHitBox(ctx) {
-        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Coin || this instanceof Food) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "red";

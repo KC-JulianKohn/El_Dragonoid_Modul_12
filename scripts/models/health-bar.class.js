@@ -1,6 +1,6 @@
 class HealthBar extends DrawableObject {
-    x = 20;
-    y = 0;
+    x = 10;
+    y = -10;
     width = 200;
     height = 60;
 
