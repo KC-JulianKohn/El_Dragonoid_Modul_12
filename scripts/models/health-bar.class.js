@@ -1,4 +1,9 @@
 class HealthBar extends DrawableObject {
+    x = 20;
+    y = 0;
+    width = 200;
+    height = 60;
+
     images_healthbar = [
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_00.png',
         './assets/img/7_statusbars/2_statusbar_health/health_overlay_20.png',
@@ -12,10 +17,6 @@ class HealthBar extends DrawableObject {
     constructor() {
         super();
         this.loadImages(this.images_healthbar);
-        this.x = 20;
-        this.y = 0;
-        this.width = 200;
-        this.height = 60;
         this.setPercentage(100);
     }
 
@@ -48,6 +49,6 @@ class HealthBar extends DrawableObject {
         ctx.fillStyle = 'black';
         ctx.textAlign = 'left';
 
-        ctx.fillText(`${this.percentage}`, this.x + 165, this.y + 45 );
+        ctx.fillText(`${this.percentage}`, this.x + 165, this.y + 45);
     }
 }

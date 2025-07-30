@@ -110,7 +110,7 @@ class Character extends MovableObject {
 
         this.originalHitbox = { ...this.hitbox };
 
-        this.hitbox.right = this.originalHitbox.left - 30;
+        this.hitbox.right = this.originalHitbox.left - 20;
 
         this.playAnimationOnce(images, () => {
             this.animationPlayedOnce = false;

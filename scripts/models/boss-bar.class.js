@@ -1,4 +1,7 @@
 class BossBar extends DrawableObject {
+    width = 160;
+    height = 50;
+
     images_bossbar = [
         './assets/img/7_statusbars/1_statusbar_endboss/health_boss_overlay_00.png',
         './assets/img/7_statusbars/1_statusbar_endboss/health_boss_overlay_20.png',
@@ -12,8 +15,6 @@ class BossBar extends DrawableObject {
     constructor() {
         super();
         this.loadImages(this.images_bossbar);
-        this.width = 160;
-        this.height = 50;
         this.setPercentage(25);
     }
 

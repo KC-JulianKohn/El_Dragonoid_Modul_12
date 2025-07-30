@@ -1,8 +1,8 @@
 class Knight_2 extends MovableObject {
 
     hitbox = {
-        left: 55,
-        right: 5,
+        left: 70,
+        right: 10,
         top: 55,
         bottom: 0
     };

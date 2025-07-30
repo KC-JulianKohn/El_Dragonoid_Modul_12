@@ -7,9 +7,9 @@ class Skeleton extends MovableObject {
     damage = 10;
 
     hitbox = {
-        left: 30,
-        right: 40,
-        top: 40,
+        left: 50,
+        right: 50,
+        top: 50,
         bottom: 0
     };
 
