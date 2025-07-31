@@ -25,7 +25,7 @@ class BossBar extends DrawableObject {
     }
 
     resolveImagIndex() {
-        if (this.percentage == 25) {
+        if (this.percentage >= 25) {
             return 5;
         } else if (this.percentage > 20) {
             return 4;

@@ -1,0 +1,30 @@
+class DeadCounter extends DrawableObject {
+    x = 460;
+    y = 10;
+    width = 40;
+    height = 40;
+
+    images_deadcounter = [
+        './assets/img/7_statusbars/enemystack.png',
+    ];
+
+    constructor() {
+        super();
+        this.loadImages(this.images_deadcounter);
+        this.img = this.imageCache[this.images_deadcounter[0]];
+    }
+
+    draw(ctx) {
+        super.draw(ctx);
+
+        ctx.font = '24px Bitcount Grid Single';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'left';
+
+        if (this.currentlycount >= 11) {
+            ctx.fillText(`${this.currentlycount}`, this.x + 45, this.y + 25);
+        } else {
+            ctx.fillText(`${this.currentlycount}/10`, this.x + 45, this.y + 25);
+        }
+    }
+}

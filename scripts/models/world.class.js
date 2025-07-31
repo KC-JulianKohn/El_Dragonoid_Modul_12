@@ -1,11 +1,14 @@
 class World {
-    character = new Character();
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
+    character = new Character();
     healthBar = new HealthBar();
+    deadcounter = new DeadCounter();
+    foodcounter = new FoodCounter();
+    treasurecounter = new TreasureCounter();
     bossBar = new BossBar();
 
     constructor(canvas, keyboard) {
@@ -39,25 +42,24 @@ class World {
                 }
                 if (enemy.isDead() && !enemy.countedAsKill) {
                     enemy.countedAsKill = true;
-                    this.character.increaseCounter("kills", 1)
-
-                    console.log("kills:" + this.character.counters.kills);
+                    this.character.increaseCounter("kills", 1);
+                    this.deadcounter.setCount(this.character.counters.kills);
                 }
                 if (enemy instanceof Endboss) {
                     enemy.checkActivation(this.character);
                     this.bossBar.updatePosition(enemy);
                     this.bossBar.setPercentage(enemy.health);
                     this.level.level_end_x = enemy.x - 230;
+                    console.log(enemy.health);
+                    
                 }
             });
 
-            this.level.coins.forEach((coin) => {
-                if (this.character.isColliding(coin)) {
-                    coin.y += 3000;
-                    this.character.increaseCounter("gold", 1);
-
-                    console.log("gold:" + this.character.counters.gold);
-
+            this.level.treasure.forEach((treasure) => {
+                if (this.character.isColliding(treasure)) {
+                    treasure.y += 3000;
+                    this.character.increaseCounter("treasure", 1);
+                    this.treasurecounter.setCount(this.character.counters.treasure);
                 }
             });
 
@@ -65,9 +67,7 @@ class World {
                 if (this.character.isColliding(food)) {
                     food.y += 3000;
                     this.character.increaseCounter("food", 1);
-
-                    console.log("food:" + this.character.counters.food);
-
+                    this.foodcounter.setCount(this.character.counters.food);
                 }
             });
 
@@ -79,11 +79,14 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.treasure);
         this.addObjectsToMap(this.level.food);
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthBar);
+        this.addToMap(this.deadcounter);
+        this.addToMap(this.foodcounter);
+        this.addToMap(this.treasurecounter);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);

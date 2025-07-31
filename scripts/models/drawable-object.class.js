@@ -6,6 +6,7 @@ class DrawableObject {
     img;
     imageCache = {};
     currentImage = 0;
+    currentlycount = 0;
 
     hitbox = {
         left: 0,
@@ -16,7 +17,7 @@ class DrawableObject {
 
     counters = {
         kills: 0,
-        gold: 0,
+        treasure: 0,
         food: 0
     };
 
@@ -55,6 +56,10 @@ class DrawableObject {
         }
     }
 
+    setCount(count) {
+        this.currentlycount = count
+    }
+
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss) {
             ctx.beginPath();
@@ -66,7 +71,7 @@ class DrawableObject {
     }
 
     drawFrameHitBox(ctx) {
-        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Coin || this instanceof Food) {
+        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Treasure || this instanceof Food) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "red";

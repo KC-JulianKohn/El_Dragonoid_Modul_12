@@ -1,14 +1,14 @@
 class Level {
     enemies;
     backgroundObjects;
-    coins;
+    treasure;
     food;
     level_end_x = 5000;
 
-    constructor(enemies, backgroundObjects, coins, food) {
+    constructor(enemies, backgroundObjects, treasure, food) {
         this.enemies = enemies;
         this.backgroundObjects = backgroundObjects;
-        this.coins = coins;
+        this.treasure = treasure;
         this.food = food;
     }
 }

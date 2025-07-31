@@ -4,13 +4,13 @@ class Endboss extends MovableObject {
     width = 300;
     y = 140;
     x = 5250;
-    health = 25;
+    health = 999999;
     damage = 15;
     speed = 0.5;
     spawnTime = new Date().getTime();
     playMoveSetRun = false;
     activated = false;
-
+    immortal = true;
 
     hitbox = {
         left: 120,
@@ -102,6 +102,11 @@ class Endboss extends MovableObject {
     }
 
     checkActivation(character) {
+        if (character.counters.kills >= 10 && character.counters.treasure >= 10 && this.immortal) {
+            this.immortal = false;
+            this.health = 25;
+        }
+
         if (this.activated) return;
 
         let timePassed = new Date().getTime() - this.spawnTime;
