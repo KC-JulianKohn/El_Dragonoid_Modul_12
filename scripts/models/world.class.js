@@ -49,9 +49,7 @@ class World {
                     enemy.checkActivation(this.character);
                     this.bossBar.updatePosition(enemy);
                     this.bossBar.setPercentage(enemy.health);
-                    this.level.level_end_x = enemy.x - 230;
-                    console.log(enemy.health);
-                    
+                    this.level.level_end_x = enemy.x - 230;                    
                 }
             });
 

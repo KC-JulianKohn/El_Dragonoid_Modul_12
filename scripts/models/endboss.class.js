@@ -52,7 +52,6 @@ class Endboss extends MovableObject {
         './assets/img/4_enemie_boss/2_attack/attack_13.png',
         './assets/img/4_enemie_boss/2_attack/attack_14.png'
     ];
-
     images_hurt = [
         './assets/img/4_enemie_boss/3_hurt/hurt_00.png',
         './assets/img/4_enemie_boss/3_hurt/hurt_01.png',
@@ -168,6 +167,7 @@ class Endboss extends MovableObject {
         this.isAttacking = true;
         this.originalHitbox = { ...this.hitbox };
         this.hitbox.left = this.originalHitbox.right - 55;
+        this.hitbox.top = this.originalHitbox.top - 220;
 
         this.playAnimationOnce(this.images_attack, () => {
             this.hitbox = this.originalHitbox;
