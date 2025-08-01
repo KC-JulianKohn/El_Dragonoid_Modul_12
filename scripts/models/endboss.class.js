@@ -171,8 +171,7 @@ class Endboss extends MovableObject {
 
         this.playAnimationOnce(this.images_attack, () => {
             this.hitbox = this.originalHitbox;
-            this.animationPlayedOnce = false;
-            this.isAttacking = false;
+            this.playAnimationReset();
             if (callback) callback();
         });
     }

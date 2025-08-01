@@ -13,7 +13,7 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    playAnimationOnce(images,  callback) {
+    playAnimationOnce(images, callback) {
         this.isControllable = false;
         if (!this.animationPlayedOnce) {
             this.animationPlayedOnce = true;
@@ -25,10 +25,16 @@ class MovableObject extends DrawableObject {
                     i++;
                 } else {
                     clearInterval(interval);
-                    if (callback) callback(); 
+                    if (callback) callback();
                 }
             }, 150);
         }
+    }
+
+    playAnimationReset() {
+        this.animationPlayedOnce = false;
+        this.isControllable = true;
+        this.isAttacking = false;
     }
 
     playDeadAnimation(images) {
@@ -48,11 +54,11 @@ class MovableObject extends DrawableObject {
     }
 
     moveUp() {
-        this.y -= 3;
+        this.y -= 2.5;
     }
 
     moveDown() {
-        this.y += 3;
+        this.y += 2.5;
     }
 
     hit(damage) {
@@ -61,7 +67,7 @@ class MovableObject extends DrawableObject {
             this.health = 0;
         } else {
             this.lastHit = new Date().getTime();
-        }        
+        }
     }
 
     isHurt() {

@@ -7,9 +7,7 @@ class Character extends MovableObject {
     world;
     isControllable = true;
     isFlight = false;
-    isLanding = false;
-    isRising = false;
-    wasInFlight = false;
+    isWalk = true;
 
     hitbox = {
         left: 40,
@@ -114,9 +112,9 @@ class Character extends MovableObject {
     animate() {
 
         setInterval(() => {
-            this.flightControll();
+            this.setFlightHitbox();
             if (this.isControllable) {
-                if (this.world.keyboard.UP && this.y > -50) {
+                if (this.world.keyboard.UP && this.y > -50 && this.isFlight) {
                     this.moveUp();
                 }
                 if (this.world.keyboard.DOWN && this.y < 140) {
@@ -140,7 +138,11 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
-            } else if (this.isFlight) {
+            } else if (this.world.keyboard.UP && !this.isFlight) {
+                this.playRiseAnimation(this.images_rise);
+            } else if (this.world.keyboard.DOWN && this.y >= 140 && !this.isWalk) {
+                this.playLandingAnimation(this.images_landing);
+            } else if (this.isFlight && !this.isWalk) {
                 this.playAnimations(this.images_flight);
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);
@@ -168,10 +170,8 @@ class Character extends MovableObject {
         this.hitbox.right = this.originalHitbox.left - 25;
 
         this.playAnimationOnce(images, () => {
-            this.animationPlayedOnce = false;
-            this.isControllable = true;
+            this.playAnimationReset();
             this.hitbox = this.originalHitbox;
-            this.isAttacking = false;
         });
     }
 
@@ -184,32 +184,37 @@ class Character extends MovableObject {
         this.isAttacking = true;
 
         this.playAnimationOnce(images, () => {
-            this.animationPlayedOnce = false;
-            this.isControllable = true;
-            this.isAttacking = false;
+            this.playAnimationReset();
         });
     }
 
-    flightControll() {
+    setFlightHitbox() {
         if (!this.isAttacking) {
             if (this.y < 140) {
-                this.isFlight = true;
                 this.hitbox.bottom = 110;
                 this.hitbox.top = 120;
                 this.hitbox.right = 20;
             } else {
-                this.isFlight = false;
                 this.hitbox.bottom = 0;
                 this.hitbox.top = 190;
                 this.hitbox.right = 40;
             }
         }
     }
+
+    playRiseAnimation(images) {
+        this.isFlight = true;
+        this.isWalk = false;
+        this.playAnimationOnce(images, () => {
+            this.playAnimationReset();
+        });
+    }
+
+    playLandingAnimation(images) {
+        this.isFlight = false;
+        this.isWalk = true;
+        this.playAnimationOnce(images, () => {
+            this.playAnimationReset();
+        });
+    }
 }
-
-
-// else if () {
-//     this.playAnimationOnce(this.images_rise)
-// } else if () {
-//     this.playAnimationOnce(this.images_landing)
-// }
