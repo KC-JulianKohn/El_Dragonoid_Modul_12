@@ -46,7 +46,7 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/3_rise/rise_03.png',
         './assets/img/2_character_dragon/3_rise/rise_04.png',
         './assets/img/2_character_dragon/3_rise/rise_05.png',
-        './assets/img/2_character_dragon/3_rise/rise_06.png',
+        './assets/img/2_character_dragon/3_rise/rise_06.png'
     ];
     images_flight = [
         './assets/img/2_character_dragon/4_flight/flight_00.png',
@@ -60,14 +60,14 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/4_flight/flight_08.png',
         './assets/img/2_character_dragon/4_flight/flight_09.png',
         './assets/img/2_character_dragon/4_flight/flight_10.png',
-        './assets/img/2_character_dragon/4_flight/flight_11.png',
+        './assets/img/2_character_dragon/4_flight/flight_11.png'
     ];
     images_landing = [
         './assets/img/2_character_dragon/5_landing/landing_00.png',
         './assets/img/2_character_dragon/5_landing/landing_01.png',
         './assets/img/2_character_dragon/5_landing/landing_02.png',
         './assets/img/2_character_dragon/5_landing/landing_03.png',
-        './assets/img/2_character_dragon/5_landing/landing_04.png',
+        './assets/img/2_character_dragon/5_landing/landing_04.png'
     ];
     images_fire_attack = [
         './assets/img/2_character_dragon/6_fire_attack/fire_attack_00.png',
@@ -75,6 +75,8 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/6_fire_attack/fire_attack_02.png',
         './assets/img/2_character_dragon/6_fire_attack/fire_attack_03.png',
         './assets/img/2_character_dragon/6_fire_attack/fire_attack_04.png',
+        './assets/img/2_character_dragon/6_fire_attack/fire_attack_05.png',
+        './assets/img/2_character_dragon/6_fire_attack/fire_attack_06.png'
     ];
     images_bite_attack = [
         './assets/img/2_character_dragon/7_bite_attack/bite_attack_00.png',
@@ -86,12 +88,12 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/8_hurt/hurt_00.png',
         './assets/img/2_character_dragon/8_hurt/hurt_01.png',
         './assets/img/2_character_dragon/8_hurt/hurt_02.png',
-        './assets/img/2_character_dragon/8_hurt/hurt_03.png',
+        './assets/img/2_character_dragon/8_hurt/hurt_03.png'
     ];
     images_dead = [
         './assets/img/2_character_dragon/9_dead/dead_00.png',
         './assets/img/2_character_dragon/9_dead/dead_01.png',
-        './assets/img/2_character_dragon/9_dead/dead_02.png',
+        './assets/img/2_character_dragon/9_dead/dead_02.png'
     ];
 
 
@@ -150,12 +152,26 @@ class Character extends MovableObject {
                 this.playAnimations(this.images_walk);
             } else if (this.world.keyboard.SPACE) {
                 this.playBitAttackAnimation(this.images_bite_attack);
-            } else if (this.world.keyboard.F) {
+            } else if (this.world.keyboard.F && this.counters.food > 0 && !this.otherDirection) {
                 this.playFireAttackAnimation(this.images_fire_attack);
             } else {
                 this.playAnimations(this.images_idle);
             }
         }, 150);
+    }
+
+    setFlightHitbox() {
+        if (!this.isAttacking) {
+            if (this.y < 140) {
+                this.hitbox.bottom = 110;
+                this.hitbox.top = 120;
+                this.hitbox.right = 20;
+            } else {
+                this.hitbox.bottom = 0;
+                this.hitbox.top = 190;
+                this.hitbox.right = 40;
+            }
+        }
     }
 
     playBitAttackAnimation(images) {
@@ -182,39 +198,25 @@ class Character extends MovableObject {
         if (now - this.lastFireTime < this.fireCooldown) return;
         this.lastFireTime = now;
         this.isAttacking = true;
+        this.decreaseCounter("food", 1)
 
-        this.playAnimationOnce(images, () => {
-            this.playAnimationReset();
-        });
-    }
-
-    setFlightHitbox() {
-        if (!this.isAttacking) {
-            if (this.y < 140) {
-                this.hitbox.bottom = 110;
-                this.hitbox.top = 120;
-                this.hitbox.right = 20;
-            } else {
-                this.hitbox.bottom = 0;
-                this.hitbox.top = 190;
-                this.hitbox.right = 40;
+        this.playAnimationOnce(images, () => { this.playAnimationReset(); });
+        setTimeout(() => {
+            if (!this.world.fireball) {
+                this.world.fireball = new Fireball(this);
             }
-        }
+        }, 700);
     }
 
     playRiseAnimation(images) {
         this.isFlight = true;
         this.isWalk = false;
-        this.playAnimationOnce(images, () => {
-            this.playAnimationReset();
-        });
+        this.playAnimationOnce(images, () => { this.playAnimationReset(); });
     }
 
     playLandingAnimation(images) {
         this.isFlight = false;
         this.isWalk = true;
-        this.playAnimationOnce(images, () => {
-            this.playAnimationReset();
-        });
+        this.playAnimationOnce(images, () => { this.playAnimationReset(); });
     }
 }

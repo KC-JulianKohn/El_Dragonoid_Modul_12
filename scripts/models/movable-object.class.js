@@ -4,6 +4,7 @@ class MovableObject extends DrawableObject {
     health = 5;
     lastHit = 0;
     damage = 5;
+    invisibility = 1;
 
 
     playAnimations(images) {
@@ -41,7 +42,7 @@ class MovableObject extends DrawableObject {
         this.playAnimationOnce(images, () => {
             setTimeout(() => {
                 this.y += 3000;
-            }, 3000);
+            }, 1500);
         });
     }
 
@@ -73,7 +74,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 1;
+        return timepassed < this.invisibility;
     }
 
     isDead() {

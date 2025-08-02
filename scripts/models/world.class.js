@@ -9,7 +9,8 @@ class World {
     deadcounter = new DeadCounter();
     foodcounter = new FoodCounter();
     treasurecounter = new TreasureCounter();
-    bossBar = new BossBar();
+    endbossBar = new EndbossBar();
+    fireball = null;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -40,36 +41,44 @@ class World {
                 if (this.character.isAttacking && this.character.isColliding(enemy) && !enemy.isHurt() && !enemy.isAttacking) {
                     enemy.hit(this.character.damage);
                 }
+                if (!enemy.isHurt() && !enemy.isAttacking && !enemy.isDead()) {
+                    if (this.fireball && this.fireball.isColliding(enemy)) {
+                        this.fireball.triggerExplosion();
+                        enemy.hit(this.fireball.damage);
+                    }
+                }
+
                 if (enemy.isDead() && !enemy.countedAsKill) {
                     enemy.countedAsKill = true;
                     this.character.increaseCounter("kills", 1);
                     this.deadcounter.setCount(this.character.counters.kills);
+                    if ([5, 10, 15].includes(this.character.counters.kills)) {
+                        this.character.increaseCounter("food", 1);
+                    }
                 }
                 if (enemy instanceof Endboss) {
                     enemy.checkActivation(this.character);
-                    this.bossBar.updatePosition(enemy);
-                    this.bossBar.setPercentage(enemy.health);
-                    this.level.level_end_x = enemy.x - 230;                    
+                    this.endbossBar.updatePosition(enemy);
+                    this.endbossBar.setPercentage(enemy.health);
+                    this.level.level_end_x = enemy.x - 230;
                 }
             });
 
             this.level.treasure.forEach((treasure) => {
+                this.treasurecounter.setCount(this.character.counters.treasure);
                 if (this.character.isColliding(treasure)) {
                     treasure.y += 3000;
                     this.character.increaseCounter("treasure", 1);
-                    this.treasurecounter.setCount(this.character.counters.treasure);
                 }
             });
 
             this.level.food.forEach((food) => {
+                this.foodcounter.setCount(this.character.counters.food);
                 if (this.character.isColliding(food)) {
                     food.y += 3000;
                     this.character.increaseCounter("food", 1);
-                    this.foodcounter.setCount(this.character.counters.food);
                 }
             });
-
-
         }, 500);
     }
 
@@ -89,8 +98,10 @@ class World {
 
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addToMap(this.bossBar);
-
+        this.addToMap(this.endbossBar);
+        if (this.fireball) {
+            this.addToMap(this.fireball);
+        }
         this.ctx.translate(-this.camera_x, 0);
 
 
@@ -99,24 +110,18 @@ class World {
     }
 
     addObjectsToMap(objects) {
-        objects.forEach(o => {
-            this.addToMap(o);
-        });
+        objects.forEach(o => { this.addToMap(o); });
     }
 
     addToMap(mo) {
-        if (mo.otherDirection) {
-            this.flipImage(mo);
-        }
+        if (!mo) return;
+        if (mo.otherDirection) { this.flipImage(mo); }
 
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-        mo.drawFrameHitBox(this.ctx);
+        // mo.drawFrame(this.ctx);
+        // mo.drawFrameHitBox(this.ctx);
 
-
-        if (mo.otherDirection) {
-            this.flipImageBack(mo);
-        }
+        if (mo.otherDirection) { this.flipImageBack(mo); }
     }
 
     flipImage(mo) {

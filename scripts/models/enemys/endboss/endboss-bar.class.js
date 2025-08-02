@@ -1,8 +1,8 @@
-class BossBar extends DrawableObject {
+class EndbossBar extends DrawableObject {
     width = 160;
     height = 50;
 
-    images_bossbar = [
+    images_endbossbar = [
         './assets/img/7_statusbars/1_statusbar_endboss/health_boss_overlay_00.png',
         './assets/img/7_statusbars/1_statusbar_endboss/health_boss_overlay_20.png',
         './assets/img/7_statusbars/1_statusbar_endboss/health_boss_overlay_40.png',
@@ -14,26 +14,26 @@ class BossBar extends DrawableObject {
 
     constructor() {
         super();
-        this.loadImages(this.images_bossbar);
+        this.loadImages(this.images_endbossbar);
         this.setPercentage(25);
     }
 
     setPercentage(percentage) {
         this.percentage = percentage;
-        let path = this.images_bossbar[this.resolveImagIndex()];
+        let path = this.images_endbossbar[this.resolveImagIndex()];
         this.img = this.imageCache[path];
     }
 
     resolveImagIndex() {
-        if (this.percentage >= 25) {
+        if (this.percentage >= 50) {
             return 5;
-        } else if (this.percentage > 20) {
+        } else if (this.percentage > 40) {
             return 4;
-        } else if (this.percentage > 15) {
+        } else if (this.percentage > 30) {
             return 3;
-        } else if (this.percentage > 10) {
+        } else if (this.percentage > 20) {
             return 2;
-        } else if (this.percentage > 5) {
+        } else if (this.percentage > 10) {
             return 1;
         } else {
             return 0;

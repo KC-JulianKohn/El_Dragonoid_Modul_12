@@ -1,17 +1,11 @@
-class TreasureCounter extends DrawableObject {
-    x = 330;
+class DeadCounter extends DrawableObject {
+    x = 460;
     y = 10;
-    width = 35;
-    height = 35;
-
-    images_treasurecounter = [
-        './assets/img/7_statusbars/treasurestack.png',
-    ];
+    width = 40;
+    height = 40;
 
     constructor() {
-        super();
-        this.loadImages(this.images_treasurecounter);
-        this.img = this.imageCache[this.images_treasurecounter[0]];
+        super().loadImage('./assets/img/7_statusbars/enemystack.png');
     }
 
     draw(ctx) {

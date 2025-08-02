@@ -4,14 +4,8 @@ class FoodCounter extends DrawableObject {
     width = 35;
     height = 35;
 
-    images_foodcounter = [
-        './assets/img/7_statusbars/foodstack.png',
-    ];
-
     constructor() {
-        super();
-        this.loadImages(this.images_foodcounter);
-        this.img = this.imageCache[this.images_foodcounter[0]];
+        super().loadImage('./assets/img/7_statusbars/foodstack.png');
     }
 
     draw(ctx) {

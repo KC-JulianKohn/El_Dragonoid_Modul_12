@@ -67,12 +67,10 @@ const level1 = new Level(
         new Treasure('./assets/img/8_treasure/treasure_03.png', 4750)
     ],
     [
-        new Food('./assets/img/9_food/food_00.png', 700),
         new Food('./assets/img/9_food/food_01.png', 921),
         new Food('./assets/img/9_food/food_00.png', 1736),
         new Food('./assets/img/9_food/food_01.png', 2121),
         new Food('./assets/img/9_food/food_00.png', 2841),
-        new Food('./assets/img/9_food/food_01.png', 3673),
-        new Food('./assets/img/9_food/food_00.png', 4378)
+        new Food('./assets/img/9_food/food_01.png', 3673)
     ]
 );

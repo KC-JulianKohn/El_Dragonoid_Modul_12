@@ -11,6 +11,7 @@ class Endboss extends MovableObject {
     playMoveSetRun = false;
     activated = false;
     immortal = true;
+    invisibility = 3;
 
     hitbox = {
         left: 120,
@@ -103,7 +104,7 @@ class Endboss extends MovableObject {
     checkActivation(character) {
         if (character.counters.kills >= 10 && character.counters.treasure >= 10 && this.immortal) {
             this.immortal = false;
-            this.health = 25;
+            this.health = 50;
         }
 
         if (this.activated) return;
