@@ -88,14 +88,6 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.treasure);
         this.addObjectsToMap(this.level.food);
-
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.healthBar);
-        this.addToMap(this.deadcounter);
-        this.addToMap(this.foodcounter);
-        this.addToMap(this.treasurecounter);
-        this.ctx.translate(this.camera_x, 0);
-
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.endbossBar);
@@ -103,6 +95,10 @@ class World {
             this.addToMap(this.fireball);
         }
         this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.deadcounter);
+        this.addToMap(this.foodcounter);
+        this.addToMap(this.treasurecounter);
 
 
         let self = this

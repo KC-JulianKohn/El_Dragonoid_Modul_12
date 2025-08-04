@@ -6,8 +6,6 @@
     src: url('./assets/fonts/bitcount-grid-single-v1-latin-regular.woff2') format('woff2');
 }
 
-
-
 body {
     margin: 0;
     min-height: 100vh;
@@ -29,11 +27,228 @@ h1 {
     text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
+h2 {
+    margin: 0;
+    color: black;
+    font-size: 56px;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
 canvas {
+    position: relative;
     display: block;
-    box-sizing: border-box;
     border: 5px;
     border-color: black;
     border-style: solid;
     border-radius: 10px;
+}
+
+
+.UI_section,
+.UI_background_section {
+    margin-top: 64px;
+    position: absolute;
+    width: 920px;
+    height: 480px;
+    border-radius: 5px;
+    border: 5px;
+    border-color: black;
+    border-style: solid;
+}
+
+.UI_background_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background_color {
+    background-color: rgba(0, 0, 0, 0.699);
+}
+
+.background_start {
+    width: 100%;
+    height: 100%;
+}
+
+.background_game_over {
+    width: 60%;
+    height: 60%;
+}
+
+.background_win {
+    width: 65%;
+    height: 100%;
+}
+
+input:hover,
+button:hover {
+    cursor: pointer;
+    background-color: rgba(3, 194, 3, 0.800);
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.836);
+}
+
+header {
+    width: 100%;
+    height: 70px;
+}
+
+.header_div {
+    z-index: 30;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.header_div button {
+    margin: 5px;
+}
+
+.volume-control {
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(61, 61, 61, 0.800);
+    border-radius: 50px;
+    font-size: 28px;
+    height: 40px;
+    width: 145px;
+}
+
+input {
+    width: 80px;
+}
+
+main {
+    width: 100%;
+    height: 240px;
+}
+
+.main_div {
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: end;
+    width: 100%;
+    height: 100%;
+}
+
+.main_div button,
+.main_div h2 {
+    margin-right: 50px;
+}
+
+footer {
+    display: flex;
+    width: 100%;
+    height: 170px;
+}
+
+.footer_walkbutton {
+    height: 100%;
+    width: 200px;
+}
+
+.footer_walkbutton_div {
+    width: 100%;
+    height: 100%;
+}
+
+.footer_walkbutton_div_top {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    width: 100%;
+    height: 55px;
+}
+
+.footer_walkbutton_div_mid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 55px;
+}
+
+.footer_walkbutton_div_bottom {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    width: 100%;
+    height: 60px;
+}
+
+.footer_resetbutton {
+    height: 100%;
+    width: 520px;
+}
+
+.footer_resetbutton_div {
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    width: 100%;
+    height: 100%;
+}
+
+.footer_attackbutton {
+    height: 100%;
+    width: 200px;
+}
+
+.footer_attackbutton_div {
+    width: 100%;
+    height: 100%;
+}
+
+.footer_attackbutton_div_top {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    height: 85px;
+}
+
+.footer_attackbutton_div_bottom {
+    display: flex;
+    justify-content: center;
+    align-items: top;
+    width: 100%;
+    height: 85px;
+}
+
+.button_circle {
+    background-color: rgba(61, 61, 61, 0.800);
+    border: none;
+    border-radius: 50px;
+    font-size: 28px;
+    width: 50px;
+    height: 50px;
+}
+
+.button_reset_start {
+    font-family: 'Bitcount Grid Single', Arial, Helvetica, sans-serif;
+    background-color: rgba(61, 61, 61, 0.800);
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 50px;
+    font-size: 40px;
+    height: 52px;
+    width: 170px;
+}
+
+@media only screen and (max-width: 920px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100%;
+    }
 }
