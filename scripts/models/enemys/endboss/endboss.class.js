@@ -80,6 +80,8 @@ class Endboss extends MovableObject {
 
     animate() {
         setInterval(() => {
+            if (this.isPaused) return;
+
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else if (this.isHurt()) {
@@ -111,7 +113,7 @@ class Endboss extends MovableObject {
 
         let timePassed = new Date().getTime() - this.spawnTime;
 
-        if (this.x - character.x <= 650 || timePassed >= 5 * 60 * 1000) {
+        if (this.x - character.x <= 650 || timePassed >= 7 * 60 * 1000) {
             this.activated = true;
             this.playMoveSet();
         }
@@ -146,6 +148,8 @@ class Endboss extends MovableObject {
         let distanceMoved = 0;
 
         let interval = setInterval(() => {
+            if (this.isPaused) return;
+
             if (this.isDead()) {
                 clearInterval(interval);
                 return;

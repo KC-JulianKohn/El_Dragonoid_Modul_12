@@ -51,6 +51,8 @@ class Skeleton extends MovableObject {
 
     animate() {
         setInterval(() => {
+            if (this.world.isPaused) return;
+
             if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
             }
@@ -58,6 +60,8 @@ class Skeleton extends MovableObject {
 
         setInterval(() => {
             if (this.isDead()) {
+                if (this.world.isPaused) return;
+                
                 this.playDeadAnimation(this.images_dead);
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);

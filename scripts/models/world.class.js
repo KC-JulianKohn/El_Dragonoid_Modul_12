@@ -1,4 +1,5 @@
 class World {
+    isPaused = false;
     level = level1;
     canvas;
     ctx;
@@ -19,6 +20,14 @@ class World {
         this.draw();
         this.setWorld();
         this.checkAll();
+    }
+
+    pauseGame() {
+        this.isPaused = true;
+    }
+
+    resumeGame() {
+        this.isPaused = false;
     }
 
     setWorld() {

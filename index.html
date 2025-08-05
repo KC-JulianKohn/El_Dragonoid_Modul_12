@@ -46,7 +46,7 @@
 
         <section class="UI_background_section">
             <img id="backgroundStart" class="background_start"
-                src="./assets/img/1_intro_outro_screens/start/startscreen_1.png" style="display: none;">
+                src="./assets/img/1_intro_outro_screens/start/startscreen_1.png">
             <img id="backgroundGameOver" class="background_game_over"
                 src="./assets/img/1_intro_outro_screens/You won, you lost/game_over.png" style="display: none;">
             <img id="backgroundWin" class="background_win"
@@ -63,7 +63,7 @@
                         <span>🔊</span>
                         <input type="range" min="0" max="100" value="20">
                     </label>
-                    <button class="button_circle">i</button>
+                    <button onclick="infoScreen()" class="button_circle">i</button>
                     <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
 
 
@@ -74,15 +74,15 @@
             </header>
 
             <main>
-                <div class="main_div">
+                <div id="mainDiv" class="main_div">
                     <h2>El Dragonnoid</h2>
-                    <button class="button_reset_start">START</button>
+                    <button onclick="startGame()" class="button_reset_start">START</button>
                 </div>
             </main>
 
             <footer>
                 <section class="footer_walkbutton">
-                    <div class="footer_walkbutton_div">
+                    <div class="footer_walkbutton_div" style="display: none;">
                         <div class="footer_walkbutton_div_top">
                             <button id="buttonUp" class="button_circle">△</button>
                         </div>
@@ -97,13 +97,13 @@
                 </section>
 
                 <section class="footer_resetbutton">
-                    <div class="footer_resetbutton_div">
+                    <div class="footer_resetbutton_div" style="display: none;">
                         <button class="button_reset_start">RESET</button>
                     </div>
                 </section>
 
                 <section class="footer_attackbutton">
-                    <div class="footer_attackbutton_div">
+                    <div class="footer_attackbutton_div" style="display: none;">
                         <div class="footer_attackbutton_div_top">
                             <button id="buttonSpace" class="button_circle">⚔</button>
                         </div>

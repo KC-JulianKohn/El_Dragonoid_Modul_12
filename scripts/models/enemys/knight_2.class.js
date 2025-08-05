@@ -41,12 +41,16 @@ class Knight_2 extends MovableObject {
 
     animate() {
         setInterval(() => {
+            if (this.world.isPaused) return;
+
             if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
             }
         }, 1000 / 60);
 
         setInterval(() => {
+            if (this.world.isPaused) return;
+            
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else

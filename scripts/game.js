@@ -1,11 +1,14 @@
 let canvas;
 let world;
 let keyboard;
+let gameStart = false;
+let infoScreenOn = false;
 
 function init() {
     canvas = document.getElementById('canvas');
     keyboard = new Keyboard();
     world = new World(canvas, keyboard);
+    world.pauseGame();
 }
 
 function fullscreen() {
@@ -48,5 +51,26 @@ function closeFullscreen() {
         document.webkitExitFullscreen();
     } else if (document.msExitFullscreen) { /* IE11 */
         document.msExitFullscreen();
+    }
+}
+
+function startGame() {
+    gameStart = true;
+    world.resumeGame();
+    document.getElementById('mainDiv').style.display = 'none';
+    document.getElementById('backgroundStart').style.display = 'none';
+}
+
+function infoScreen() {
+    if (infoScreenOn) {
+        document.getElementById('infoScreen').style.display = 'none';
+        infoScreenOn = false;
+        if (world.isPaused && gameStart) {
+            world.isPaused = false;
+        }
+    } else {
+        infoScreenOn = true;
+        world.isPaused = true;
+        document.getElementById('infoScreen').style.display = '';
     }
 }

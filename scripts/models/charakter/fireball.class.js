@@ -82,23 +82,28 @@ class Fireball extends MovableObject {
 
     animate() {
         setInterval(() => {
+            if (this.world.isPaused) return;
+
             if (!this.hasExploded && !this.explode()) {
                 this.moveRight();
             }
         }, 1000 / 60);
 
         setInterval(() => {
+            if (this.world.isPaused) return;
+
             if (!this.hasExploded) {
                 this.playAnimations(this.images_fireball);
             } else {
                 this.playAnimationOnce(this.images_explosion, () => {
                     this.world.fireball = null;
-                    playAnimationReset();
                 });
             }
         }, 100);
 
         setInterval(() => {
+            if (this.world.isPaused) return;
+            
             this.expandExplosion();
         }, 100);
     }

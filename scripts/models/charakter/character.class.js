@@ -114,6 +114,8 @@ class Character extends MovableObject {
     animate() {
 
         setInterval(() => {
+            if (this.world.isPaused) return;
+            
             this.setFlightHitbox();
             if (this.isControllable) {
                 if (this.world.keyboard.UP && this.y > -50 && this.isFlight) {
@@ -138,6 +140,8 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
+            if (this.world.isPaused) return;
+
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else if (this.world.keyboard.UP && !this.isFlight) {
