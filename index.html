@@ -44,7 +44,7 @@
 
         <canvas id="canvas" width="920" height="480"></canvas>
 
-        <section class="UI_background_section">
+        <section id="uiBackgroundSection" class="UI_background_section">
             <img id="backgroundStart" class="background_start"
                 src="./assets/img/1_intro_outro_screens/start/startscreen_1.png">
             <img id="backgroundGameOver" class="background_game_over"
@@ -103,7 +103,8 @@
                     <span>Note:
                         You must defeat 10 enemies and collect 10 treasures to be able to damage the boss...
                         and only with fire!
-                        Firing a fireball consumes one food.</span>
+                        Firing a fireball consumes one food.
+                        Skeletons are 2 hit!</span>
                 </div>
             </div>
         </section>
@@ -115,7 +116,7 @@
                         <span>🔊</span>
                         <input type="range" min="0" max="100" value="20">
                     </label>
-                    <button onclick="infoScreen()" class="button_circle">i</button>
+                    <button onclick="infoScreen()" id="buttonInfo" class="button_circle">i</button>
                     <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
                     <!-- 🔈 (U+1F508) Lautsprecher klein
                 🔉 (U+1F509) Lautsprecher mittel
@@ -127,13 +128,14 @@
                 <div id="mainDiv" class="main_div">
                     <span>(i = info)</span>
                     <h2>El Dragonnoid</h2>
+                    <a href="#">Impressum</a>
                     <button onclick="startGame()" class="button_reset_start">START</button>
                 </div>
             </main>
 
             <footer>
                 <section class="footer_walkbutton">
-                    <div class="footer_walkbutton_div" style="display: none;">
+                    <div id="footerWalkbuttonDiv" class="footer_walkbutton_div" style="display: none;">
                         <div class="footer_walkbutton_div_top">
                             <button id="buttonUp" class="button_circle">△</button>
                         </div>
@@ -148,13 +150,13 @@
                 </section>
 
                 <section class="footer_resetbutton">
-                    <div class="footer_resetbutton_div" style="display: none;">
-                        <button class="button_reset_start">RESET</button>
+                    <div id="footerResetbuttonDiv" class="footer_resetbutton_div" style="display: none;">
+                        <button onclick="resetGame()" class="button_reset_start">RESET</button>
                     </div>
                 </section>
 
                 <section class="footer_attackbutton">
-                    <div class="footer_attackbutton_div" style="display: none;">
+                    <div id="footerAttackbuttonDiv" class="footer_attackbutton_div" style="display: none;">
                         <div class="footer_attackbutton_div_top">
                             <button id="buttonSpace" class="button_circle">⚔</button>
                         </div>

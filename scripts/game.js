@@ -84,3 +84,48 @@ function infoScreen() {
         }
     }
 }
+
+function gameOverScreen() {
+    setTimeout(() => {
+        document.getElementById('backgroundGameOver').style.display = '';
+
+        document.getElementById('uiBackgroundSection').classList.add('background_color');
+        document.getElementById('footerResetbuttonDiv').style.display = '';
+        document.getElementById('footerWalkbuttonDiv').style.display = 'none';
+        document.getElementById('footerAttackbuttonDiv').style.display = 'none';
+        document.getElementById('buttonInfo').style.display = 'none';
+        document.getElementById('buttonFullscreen').style.display = 'none';
+
+        world.pauseGame();
+    }, 2500);
+}
+
+function winScreen() {
+    setTimeout(() => {
+        document.getElementById('backgroundWin').style.display = '';
+
+        document.getElementById('uiBackgroundSection').classList.add('background_color');
+        document.getElementById('footerResetbuttonDiv').style.display = '';
+        document.getElementById('footerWalkbuttonDiv').style.display = 'none';
+        document.getElementById('footerAttackbuttonDiv').style.display = 'none';
+        document.getElementById('buttonInfo').style.display = 'none';
+        document.getElementById('buttonFullscreen').style.display = 'none';
+
+        world.pauseGame();
+    }, 2500);
+}
+
+function resetGame() {
+    document.getElementById('backgroundWin').style.display = 'none';
+    document.getElementById('backgroundGameOver').style.display = 'none';
+    document.getElementById('uiBackgroundSection').classList.remove('background_color');
+    document.getElementById('footerResetbuttonDiv').style.display = 'none';
+    document.getElementById('buttonInfo').style.display = '';
+    document.getElementById('buttonFullscreen').style.display = '';
+    document.getElementById('mainDiv').style.display = '';
+    document.getElementById('backgroundStart').style.display = '';
+    gameStart = false;
+    infoScreenOn = false;
+    world = null;
+    init();
+}

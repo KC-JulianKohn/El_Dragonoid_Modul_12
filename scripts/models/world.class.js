@@ -12,6 +12,7 @@ class World {
     treasurecounter = new TreasureCounter();
     endbossBar = new EndbossBar();
     fireball = null;
+    gameEnd = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -46,6 +47,12 @@ class World {
                 if (!this.character.isAttacking && !enemy.isDead() && this.character.isColliding(enemy)) {
                     this.character.hit(enemy.damage);
                     this.healthBar.setPercentage(this.character.health);
+                    if (!this.gameEnd) {
+                        if (this.character.isDead()) {
+                            this.gameEnd = true;
+                            gameOverScreen();
+                        }
+                    }
                 }
                 if (this.character.isAttacking && this.character.isColliding(enemy) && !enemy.isHurt() && !enemy.isAttacking) {
                     enemy.hit(this.character.damage);
@@ -56,7 +63,6 @@ class World {
                         enemy.hit(this.fireball.damage);
                     }
                 }
-
                 if (enemy.isDead() && !enemy.countedAsKill) {
                     enemy.countedAsKill = true;
                     this.character.increaseCounter("kills", 1);
@@ -70,6 +76,12 @@ class World {
                     this.endbossBar.updatePosition(enemy);
                     this.endbossBar.setPercentage(enemy.health);
                     this.level.level_end_x = enemy.x - 230;
+                    if (!this.gameEnd) {
+                        if (enemy.isDead()) {
+                            this.gameEnd = true;
+                            winScreen();
+                        }
+                    }
                 }
             });
 

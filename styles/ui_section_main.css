@@ -13,8 +13,19 @@ main {
     height: 100%;
 }
 
+a {
+    font-size: 20px;
+    color: black;
+}
+
+a:hover {
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+}
+
 .main_div button,
 .main_div h2,
+.main_div a,
 .main_div span {
     margin-right: calc(50 / 920 * 100%);
 }
