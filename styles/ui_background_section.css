@@ -1,0 +1,39 @@
+.UI_section,
+.UI_background_section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    border: 5px;
+    border-color: black;
+    border-style: solid;
+}
+
+.UI_background_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.UI_background_section img {
+    border-radius: 5px;
+}
+
+.background_color {
+    background-color: rgba(0, 0, 0, 0.699);
+}
+
+.background_start {
+    width: 100%;
+    height: 100%;
+}
+
+.background_game_over {
+    width: 60%;
+    height: 60%;
+}
+
+.background_win {
+    width: 65%;
+    height: 100%;
+}

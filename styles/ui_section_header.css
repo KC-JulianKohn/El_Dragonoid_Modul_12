@@ -1,0 +1,33 @@
+header {
+    width: 100%;
+    height: calc(70 / 480 * 100%);
+}
+
+.header_div {
+    z-index: 30;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.header_div button {
+    margin-right: 15px;
+}
+
+.volume-control {
+    margin-right: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(61, 61, 61, 0.800);
+    border-radius: 50px;
+    font-size: 28px;
+    height: 40px;
+    width: 145px;
+}
+
+input {
+    width: 80px;
+}

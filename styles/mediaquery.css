@@ -1,0 +1,39 @@
+@media only screen and (max-width: 920px) {
+    .fullscreen {
+        width: 100%;
+    }
+
+    canvas {
+        width: 100%;
+        border: none;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .UI_section,
+    .UI_background_section {
+        border: none;
+    }
+}
+
+@media only screen and (max-height: 520px) {
+    .fullscreen {
+        height: 100%;
+    }
+
+    canvas {
+        height: 100%;
+        border: none;
+    }
+
+    h1 {
+        display: none;
+    }
+
+    .UI_section,
+    .UI_background_section {
+        border: none;
+    }
+}

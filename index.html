@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="./assets/img/dragon.png">
-    <title>El Dragonoid</title>
-    <link rel="stylesheet" href="./style.css">
+    <title>El Dragonnoid</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/ui_background_section.css">
+    <link rel="stylesheet" href="./styles/ui_section_header.css">
+    <link rel="stylesheet" href="./styles/ui_section_main.css">
+    <link rel="stylesheet" href="./styles/ui_section_footer.css">
+    <link rel="stylesheet" href="./styles/mediaquery.css">
     <script src="./scripts/models/drawable-object.class.js" defer></script>
     <script src="./scripts/models/movable-object.class.js" defer></script>
     <script src="./scripts/models/charakter/character.class.js" defer></script>
@@ -33,81 +38,83 @@
 
 <body onload="init()">
 
-    <h1>El Dragonoid</h1>
+    <h1>El Dragonnoid</h1>
 
-    <canvas id="canvas" width="920" height="480"></canvas>
+    <div id="fullscreen" class="fullscreen">
 
-    <section class="UI_background_section">
-        <img id="backgroundStart" class="background_start"
-            src="./assets/img/1_intro_outro_screens/start/startscreen_1.png" style="display: none;">
-        <img id="backgroundGameOver" class="background_game_over"
-            src="./assets/img/1_intro_outro_screens/You won, you lost/game_over.png" style="display: none;">
-        <img id="backgroundWin" class="background_win"
-            src="./assets/img/1_intro_outro_screens/You won, you lost/you_win.png" style="display: none;">
-        <div id="infoScreen" class="info_screen" style="display: none;">
-            Discription
-        </div>
-    </section>
+        <canvas id="canvas" width="920" height="480"></canvas>
 
-    <section class="UI_section">
-        <header>
-            <div class="header_div">
-                <label class="volume-control">
-                    <span>🔊</span>
-                    <input type="range" min="0" max="100" value="20">
-                </label>
-                <button class="button_circle">i</button>
-                <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
+        <section class="UI_background_section">
+            <img id="backgroundStart" class="background_start"
+                src="./assets/img/1_intro_outro_screens/start/startscreen_1.png" style="display: none;">
+            <img id="backgroundGameOver" class="background_game_over"
+                src="./assets/img/1_intro_outro_screens/You won, you lost/game_over.png" style="display: none;">
+            <img id="backgroundWin" class="background_win"
+                src="./assets/img/1_intro_outro_screens/You won, you lost/you_win.png" style="display: none;">
+            <div id="infoScreen" class="info_screen" style="display: none;">
+                Discription
+            </div>
+        </section>
+
+        <section class="UI_section">
+            <header>
+                <div class="header_div">
+                    <label class="volume-control">
+                        <span>🔊</span>
+                        <input type="range" min="0" max="100" value="20">
+                    </label>
+                    <button class="button_circle">i</button>
+                    <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
 
 
-                <!-- 🔈 (U+1F508) Lautsprecher klein
+                    <!-- 🔈 (U+1F508) Lautsprecher klein
                 🔉 (U+1F509) Lautsprecher mittel
-                🔊 (U+1F50A) Lautsprecher laut
-                🗗  (U+1F5D7) Vollbild beenden -->
-            </div>
-        </header>
-
-        <main>
-            <div class="main_div" style="display: none;">
-                <h2>El Dragonoid</h2>
-                <button class="button_reset_start">START</button>
-            </div>
-        </main>
-
-        <footer>
-            <section class="footer_walkbutton">
-                <div class="footer_walkbutton_div" style="display: none;">
-                    <div class="footer_walkbutton_div_top">
-                        <button id="buttonUp" class="button_circle">△</button>
-                    </div>
-                    <div class="footer_walkbutton_div_mid">
-                        <button id="buttonLeft" class="button_circle">◁</button>
-                        <button id="buttonRight" class="button_circle">▷</button>
-                    </div>
-                    <div class="footer_walkbutton_div_bottom">
-                        <button id="buttonDown" class="button_circle">▽</button>
-                    </div>
+                🔊 (U+1F50A) Lautsprecher laut-->
                 </div>
-            </section>
+            </header>
 
-            <section class="footer_resetbutton">
-                <div class="footer_resetbutton_div" style="display: none;">
-                    <button class="button_reset_start">RESET</button>
+            <main>
+                <div class="main_div">
+                    <h2>El Dragonnoid</h2>
+                    <button class="button_reset_start">START</button>
                 </div>
-            </section>
+            </main>
 
-            <section class="footer_attackbutton">
-                <div class="footer_attackbutton_div" style="display: none;">
-                    <div class="footer_attackbutton_div_top">
-                        <button id="buttonSpace" class="button_circle">⚔</button>
+            <footer>
+                <section class="footer_walkbutton">
+                    <div class="footer_walkbutton_div">
+                        <div class="footer_walkbutton_div_top">
+                            <button id="buttonUp" class="button_circle">△</button>
+                        </div>
+                        <div class="footer_walkbutton_div_mid">
+                            <button id="buttonLeft" class="button_circle">◁</button>
+                            <button id="buttonRight" class="button_circle">▷</button>
+                        </div>
+                        <div class="footer_walkbutton_div_bottom">
+                            <button id="buttonDown" class="button_circle">▽</button>
+                        </div>
                     </div>
-                    <div class="footer_attackbutton_div_bottom">
-                        <button id="buttonF" class="button_circle">🔥</button>
+                </section>
+
+                <section class="footer_resetbutton">
+                    <div class="footer_resetbutton_div">
+                        <button class="button_reset_start">RESET</button>
                     </div>
-                </div>
-            </section>
-        </footer>
-    </section>
+                </section>
+
+                <section class="footer_attackbutton">
+                    <div class="footer_attackbutton_div">
+                        <div class="footer_attackbutton_div_top">
+                            <button id="buttonSpace" class="button_circle">⚔</button>
+                        </div>
+                        <div class="footer_attackbutton_div_bottom">
+                            <button id="buttonF" class="button_circle">🔥</button>
+                        </div>
+                    </div>
+                </section>
+            </footer>
+        </section>
+    </div>
 </body>
 
 </html>
