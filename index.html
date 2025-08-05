@@ -52,7 +52,59 @@
             <img id="backgroundWin" class="background_win"
                 src="./assets/img/1_intro_outro_screens/You won, you lost/you_win.png" style="display: none;">
             <div id="infoScreen" class="info_screen" style="display: none;">
-                Discription
+                <div>
+                    <span>Keys</span>
+                    <table>
+                        <tr>
+                            <td>W</td>
+                            <td>/</td>
+                            <td>△</td>
+                            <td>=</td>
+                            <td>up / fly</td>
+                        </tr>
+                        <tr>
+                            <td>A</td>
+                            <td>/</td>
+                            <td>◁</td>
+                            <td>=</td>
+                            <td>left</td>
+                        </tr>
+                        <tr>
+                            <td>S</td>
+                            <td>/</td>
+                            <td>▽</td>
+                            <td>=</td>
+                            <td>down / landing</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>/</td>
+                            <td>▷</td>
+                            <td>=</td>
+                            <td>right</td>
+                        </tr>
+                        <tr>
+                            <td>SPACE</td>
+                            <td>/</td>
+                            <td>⚔</td>
+                            <td>=</td>
+                            <td>bite</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>/</td>
+                            <td>🔥</td>
+                            <td>=</td>
+                            <td>fireball</td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <span>Note:
+                        You must defeat 10 enemies and collect 10 treasures to be able to damage the boss...
+                        and only with fire!
+                        Firing a fireball consumes one food.</span>
+                </div>
             </div>
         </section>
 
@@ -65,8 +117,6 @@
                     </label>
                     <button onclick="infoScreen()" class="button_circle">i</button>
                     <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
-
-
                     <!-- 🔈 (U+1F508) Lautsprecher klein
                 🔉 (U+1F509) Lautsprecher mittel
                 🔊 (U+1F50A) Lautsprecher laut-->
@@ -75,6 +125,7 @@
 
             <main>
                 <div id="mainDiv" class="main_div">
+                    <span>(i = info)</span>
                     <h2>El Dragonnoid</h2>
                     <button onclick="startGame()" class="button_reset_start">START</button>
                 </div>

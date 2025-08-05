@@ -63,14 +63,24 @@ function startGame() {
 
 function infoScreen() {
     if (infoScreenOn) {
+        // ausschalten
         document.getElementById('infoScreen').style.display = 'none';
         infoScreenOn = false;
         if (world.isPaused && gameStart) {
             world.isPaused = false;
         }
+        if (!gameStart) {
+            document.getElementById('mainDiv').style.display = '';
+            document.getElementById('backgroundStart').style.display = '';
+        }
     } else {
+        // einschalten
         infoScreenOn = true;
         world.isPaused = true;
         document.getElementById('infoScreen').style.display = '';
+        if (!gameStart) {
+            document.getElementById('mainDiv').style.display = 'none';
+            document.getElementById('backgroundStart').style.display = 'none';
+        }
     }
 }

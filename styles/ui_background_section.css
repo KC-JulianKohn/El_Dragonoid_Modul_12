@@ -39,10 +39,29 @@
 }
 
 .info_screen {
-    padding: 5px;
+    background-image: url(../assets/img/5_background/international-mountain-day-9257122_1280.jpg);
+    background-position: center;
+    background-size: cover;
     display: flex;
-    align-items: center;
-    font-size: 20px;
+    font-size: 32px;
+    color: rgb(0, 255, 0);
+    font-weight: bolder;
     width: 100%;
     height: 100%;
+}
+
+.info_screen div {
+    background-color: rgba(0, 0, 0, 0.589);
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+table {
+    font-size: 32px;
+    font-weight: bolder;
+    margin-left: 20px;
 }

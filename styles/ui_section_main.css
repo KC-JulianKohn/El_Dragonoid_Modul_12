@@ -14,6 +14,7 @@ main {
 }
 
 .main_div button,
-.main_div h2 {
+.main_div h2,
+.main_div span {
     margin-right: calc(50 / 920 * 100%);
 }
