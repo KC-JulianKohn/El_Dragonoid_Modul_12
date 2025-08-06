@@ -38,6 +38,10 @@
 
 <body onload="init()">
 
+    <div id="displayPositionWarning" class="display_position_warning hide">
+        <span>Turn your Device to play!</span>
+    </div>
+
     <h1>El Dragonnoid</h1>
 
     <div id="fullscreen" class="fullscreen">
@@ -47,11 +51,11 @@
         <section id="uiBackgroundSection" class="UI_background_section">
             <img id="backgroundStart" class="background_start"
                 src="./assets/img/1_intro_outro_screens/start/startscreen_1.png">
-            <img id="backgroundGameOver" class="background_game_over"
-                src="./assets/img/1_intro_outro_screens/You won, you lost/game_over.png" style="display: none;">
-            <img id="backgroundWin" class="background_win"
-                src="./assets/img/1_intro_outro_screens/You won, you lost/you_win.png" style="display: none;">
-            <div id="infoScreen" class="info_screen" style="display: none;">
+            <img id="backgroundGameOver" class="background_game_over hide"
+                src="./assets/img/1_intro_outro_screens/You won, you lost/game_over.png">
+            <img id="backgroundWin" class="background_win hide"
+                src="./assets/img/1_intro_outro_screens/You won, you lost/you_win.png">
+            <div id="infoScreen" class="info_screen hide">
                 <div>
                     <span>Keys</span>
                     <table>
@@ -135,7 +139,7 @@
 
             <footer>
                 <section class="footer_walkbutton">
-                    <div id="footerWalkbuttonDiv" class="footer_walkbutton_div" style="display: none;">
+                    <div id="footerWalkbuttonDiv" class="footer_walkbutton_div hide">
                         <div class="footer_walkbutton_div_top">
                             <button id="buttonUp" class="button_circle">△</button>
                         </div>
@@ -150,13 +154,13 @@
                 </section>
 
                 <section class="footer_resetbutton">
-                    <div id="footerResetbuttonDiv" class="footer_resetbutton_div" style="display: none;">
+                    <div id="footerResetbuttonDiv" class="footer_resetbutton_div hide">
                         <button onclick="resetGame()" class="button_reset_start">RESET</button>
                     </div>
                 </section>
 
                 <section class="footer_attackbutton">
-                    <div id="footerAttackbuttonDiv" class="footer_attackbutton_div" style="display: none;">
+                    <div id="footerAttackbuttonDiv" class="footer_attackbutton_div hide">
                         <div class="footer_attackbutton_div_top">
                             <button id="buttonSpace" class="button_circle">⚔</button>
                         </div>

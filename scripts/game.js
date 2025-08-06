@@ -9,7 +9,18 @@ function init() {
     keyboard = new Keyboard();
     level1 = getFreshLevel1();
     world = new World(canvas, keyboard);
+    displayWarning();
     world.pauseGame();
+}
+
+function displayWarning() {
+    setInterval(() => {
+        if (window.innerWidth < window.innerHeight) {
+            document.getElementById('displayPositionWarning').classList.remove('hide');
+        } else {
+            document.getElementById('displayPositionWarning').classList.add('hide');
+        }
+    }, 250);
 }
 
 function fullscreen() {
@@ -58,44 +69,56 @@ function closeFullscreen() {
 function startGame() {
     gameStart = true;
     world.resumeGame();
-    document.getElementById('mainDiv').style.display = 'none';
-    document.getElementById('backgroundStart').style.display = 'none';
+    document.getElementById('mainDiv').classList.add('hide');
+    document.getElementById('backgroundStart').classList.add('hide');
+    if (window.innerWidth < 920 || window.innerHeight < 480) {
+        document.getElementById('footerWalkbuttonDiv').classList.remove('hide');
+        document.getElementById('footerAttackbuttonDiv').classList.remove('hide');
+    }
 }
 
 function infoScreen() {
     if (infoScreenOn) {
         // ausschalten
-        document.getElementById('infoScreen').style.display = 'none';
+        document.getElementById('infoScreen').classList.add('hide');
         infoScreenOn = false;
         if (world.isPaused && gameStart) {
             world.isPaused = false;
         }
         if (!gameStart) {
-            document.getElementById('mainDiv').style.display = '';
-            document.getElementById('backgroundStart').style.display = '';
+            document.getElementById('mainDiv').classList.remove('hide');
+            document.getElementById('backgroundStart').classList.remove('hide');
+        }
+        if (window.innerWidth < 920 || window.innerHeight < 480) {
+            document.getElementById('footerWalkbuttonDiv').classList.remove('hide');
+            document.getElementById('footerAttackbuttonDiv').classList.remove('hide');
         }
     } else {
         // einschalten
         infoScreenOn = true;
         world.isPaused = true;
-        document.getElementById('infoScreen').style.display = '';
+        document.getElementById('infoScreen').classList.remove('hide');
         if (!gameStart) {
-            document.getElementById('mainDiv').style.display = 'none';
-            document.getElementById('backgroundStart').style.display = 'none';
+            document.getElementById('mainDiv').classList.add('hide');
+            document.getElementById('backgroundStart').classList.add('hide');
+        }
+        if (window.innerWidth < 920 || window.innerHeight < 480) {
+            document.getElementById('footerWalkbuttonDiv').classList.add('hide');
+            document.getElementById('footerAttackbuttonDiv').classList.add('hide');
         }
     }
 }
 
 function gameOverScreen() {
     setTimeout(() => {
-        document.getElementById('backgroundGameOver').style.display = '';
+        document.getElementById('backgroundGameOver').classList.remove('hide');
 
         document.getElementById('uiBackgroundSection').classList.add('background_color');
-        document.getElementById('footerResetbuttonDiv').style.display = '';
-        document.getElementById('footerWalkbuttonDiv').style.display = 'none';
-        document.getElementById('footerAttackbuttonDiv').style.display = 'none';
-        document.getElementById('buttonInfo').style.display = 'none';
-        document.getElementById('buttonFullscreen').style.display = 'none';
+        document.getElementById('footerResetbuttonDiv').classList.remove('hide');
+        document.getElementById('footerWalkbuttonDiv').classList.add('hide');
+        document.getElementById('footerAttackbuttonDiv').classList.add('hide');
+        document.getElementById('buttonInfo').classList.add('hide');
+        document.getElementById('buttonFullscreen').classList.add('hide');
 
         world.pauseGame();
     }, 2500);
@@ -103,28 +126,28 @@ function gameOverScreen() {
 
 function winScreen() {
     setTimeout(() => {
-        document.getElementById('backgroundWin').style.display = '';
+        document.getElementById('backgroundWin').classList.remove('hide');
 
         document.getElementById('uiBackgroundSection').classList.add('background_color');
-        document.getElementById('footerResetbuttonDiv').style.display = '';
-        document.getElementById('footerWalkbuttonDiv').style.display = 'none';
-        document.getElementById('footerAttackbuttonDiv').style.display = 'none';
-        document.getElementById('buttonInfo').style.display = 'none';
-        document.getElementById('buttonFullscreen').style.display = 'none';
+        document.getElementById('footerResetbuttonDiv').classList.remove('hide');
+        document.getElementById('footerWalkbuttonDiv').classList.add('hide');
+        document.getElementById('footerAttackbuttonDiv').classList.add('hide');
+        document.getElementById('buttonInfo').classList.add('hide');
+        document.getElementById('buttonFullscreen').classList.add('hide');
 
         world.pauseGame();
     }, 2500);
 }
 
 function resetGame() {
-    document.getElementById('backgroundWin').style.display = 'none';
-    document.getElementById('backgroundGameOver').style.display = 'none';
+    document.getElementById('backgroundWin').classList.add('hide');
+    document.getElementById('backgroundGameOver').classList.add('hide');
     document.getElementById('uiBackgroundSection').classList.remove('background_color');
-    document.getElementById('footerResetbuttonDiv').style.display = 'none';
-    document.getElementById('buttonInfo').style.display = '';
-    document.getElementById('buttonFullscreen').style.display = '';
-    document.getElementById('mainDiv').style.display = '';
-    document.getElementById('backgroundStart').style.display = '';
+    document.getElementById('footerResetbuttonDiv').classList.add('hide');
+    document.getElementById('buttonInfo').classList.remove('hide');
+    document.getElementById('buttonFullscreen').classList.remove('hide');
+    document.getElementById('mainDiv').classList.remove('hide');
+    document.getElementById('backgroundStart').classList.remove('hide');
     gameStart = false;
     infoScreenOn = false;
     world = null;

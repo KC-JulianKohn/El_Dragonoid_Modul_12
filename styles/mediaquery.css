@@ -1,10 +1,24 @@
-@media only screen and (max-width: 920px) {
+@media only screen and (max-width: 920px),
+(max-height: 520px) {
+
     .fullscreen {
         width: 100%;
+        height: 100%;
+        aspect-ratio: 920 / 480;
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+
+    #buttonFullscreen {
+        display: none;
     }
 
     canvas {
         width: 100%;
+        height: 100%;
+        aspect-ratio: 920 / 480;
+        max-width: 100vw;
+        max-height: 100vh;
         border: none;
     }
 
@@ -16,24 +30,38 @@
     .UI_background_section {
         border: none;
     }
-}
 
-@media only screen and (max-height: 520px) {
-    .fullscreen {
-        height: 100%;
+    h2 {
+        font-size: 32px;
     }
 
-    canvas {
-        height: 100%;
-        border: none;
+    .button_circle {
+        font-size: 20px;
+        width: 40px;
+        height: 40px;
     }
 
-    h1 {
-        display: none;
+    .button_reset_start {
+        font-size: 20px;
+        height: 40px;
+        width: 120px;
     }
 
-    .UI_section,
-    .UI_background_section {
-        border: none;
+    .info_screen {
+        font-size: 20px;
+    }
+
+    table {
+        font-size: 20px;
+    }
+
+    .volume-control {
+        font-size: 20px;
+        height: 30px;
+        width: 115px;
+    }
+
+    input {
+        width: 60px;
     }
 }
