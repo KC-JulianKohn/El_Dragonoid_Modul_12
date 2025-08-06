@@ -27,13 +27,13 @@ class EndbossBar extends DrawableObject {
     resolveImagIndex() {
         if (this.percentage >= 50) {
             return 5;
-        } else if (this.percentage > 40) {
+        } else if (this.percentage >= 40) {
             return 4;
-        } else if (this.percentage > 30) {
+        } else if (this.percentage >= 30) {
             return 3;
-        } else if (this.percentage > 20) {
+        } else if (this.percentage >= 20) {
             return 2;
-        } else if (this.percentage > 10) {
+        } else if (this.percentage >= 10) {
             return 1;
         } else {
             return 0;

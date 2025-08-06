@@ -7,6 +7,7 @@ let infoScreenOn = false;
 function init() {
     canvas = document.getElementById('canvas');
     keyboard = new Keyboard();
+    level1 = getFreshLevel1();
     world = new World(canvas, keyboard);
     world.pauseGame();
 }

@@ -5,14 +5,14 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    fireball = null;
+    gameEnd = false;
     character = new Character();
     healthBar = new HealthBar();
     deadcounter = new DeadCounter();
     foodcounter = new FoodCounter();
     treasurecounter = new TreasureCounter();
     endbossBar = new EndbossBar();
-    fireball = null;
-    gameEnd = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -57,10 +57,13 @@ class World {
                 if (this.character.isAttacking && this.character.isColliding(enemy) && !enemy.isHurt() && !enemy.isAttacking) {
                     enemy.hit(this.character.damage);
                 }
-                if (!enemy.isHurt() && !enemy.isAttacking && !enemy.isDead()) {
-                    if (this.fireball && this.fireball.isColliding(enemy)) {
+                if (!enemy.isHurt() && !enemy.isDead()) {
+                    if (this.fireball && !this.fireball.hasExploded && this.fireball.isColliding(enemy)) {
                         this.fireball.triggerExplosion();
-                        enemy.hit(this.fireball.damage);
+
+                        if (!enemy.isAttacking) {
+                            enemy.hit(this.fireball.damage);
+                        }
                     }
                 }
                 if (enemy.isDead() && !enemy.countedAsKill) {
