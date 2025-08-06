@@ -78,7 +78,7 @@ class World {
                     enemy.checkActivation(this.character);
                     this.endbossBar.updatePosition(enemy);
                     this.endbossBar.setPercentage(enemy.health);
-                    this.level.level_end_x = enemy.x - 230;
+                    this.level.level_end_x = enemy.x + 10;
                     if (!this.gameEnd) {
                         if (enemy.isDead()) {
                             this.gameEnd = true;

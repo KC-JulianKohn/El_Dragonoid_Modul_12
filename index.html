@@ -106,9 +106,8 @@
                 <div>
                     <span>Note:
                         You must defeat 10 enemies and collect 10 treasures to be able to damage the boss...
-                        and only with fire!
-                        Firing a fireball consumes one food.
-                        Skeletons are 2 hit!</span>
+                        Firing a fireball consumes one food and deals more damage than a bite.
+                        (Skeletons are 2 hit!)</span>
                 </div>
             </div>
         </section>
@@ -117,14 +116,15 @@
             <header>
                 <div class="header_div">
                     <label class="volume-control">
-                        <span>🔊</span>
+                        <span>🔉</span>
                         <input type="range" min="0" max="100" value="20">
                     </label>
                     <button onclick="infoScreen()" id="buttonInfo" class="button_circle">i</button>
                     <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
-                    <!-- 🔈 (U+1F508) Lautsprecher klein
-                🔉 (U+1F509) Lautsprecher mittel
-                🔊 (U+1F50A) Lautsprecher laut-->
+                    <!--🔇 = 0 %
+                        🔈  = 1–35 %
+                        🔉  = 36–65 %
+                        🔊 = 66–100 % -->
                 </div>
             </header>
 

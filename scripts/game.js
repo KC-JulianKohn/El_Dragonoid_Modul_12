@@ -24,21 +24,16 @@ function displayWarning() {
 }
 
 function fullscreen() {
-    let isFullscreen = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-    let fullscreenElem = document.getElementById("fullscreen");
-    let canvas = document.getElementById("canvas");
-    let button = document.getElementById("buttonFullscreen");
-
-    if (isFullscreen) {
+    if (document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
         closeFullscreen();
-        canvas.style.width = '';
-        canvas.style.height = '';
-        button.innerText = '⛶';
+        document.getElementById("canvas").style.width = '';
+        document.getElementById("canvas").style.height = '';
+        document.getElementById("buttonFullscreen").innerText = '⛶';
     } else {
-        openFullscreen(fullscreenElem);
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        button.innerText = '🗗';
+        openFullscreen(document.getElementById("fullscreen"));
+        document.getElementById("canvas").style.width = '100%';
+        document.getElementById("canvas").style.height = '100%';
+        document.getElementById("buttonFullscreen").innerText = '🗗';
     }
 }
 
