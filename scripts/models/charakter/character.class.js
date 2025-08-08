@@ -112,10 +112,7 @@ class Character extends MovableObject {
     }
 
     animate() {
-
-        setInterval(() => {
-            if (this.world.isPaused) return;
-            
+        GameManager.addInterval(() => {
             this.setFlightHitbox();
             if (this.isControllable) {
                 if (this.world.keyboard.UP && this.y > -50 && this.isFlight) {
@@ -139,9 +136,7 @@ class Character extends MovableObject {
             this.world.camera_x = -this.x + 150;
         }, 1000 / 60);
 
-        setInterval(() => {
-            if (this.world.isPaused) return;
-
+        GameManager.addInterval(() => {
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else if (this.world.keyboard.UP && !this.isFlight) {
@@ -181,7 +176,7 @@ class Character extends MovableObject {
     playBitAttackAnimation(images) {
         if (!this.biteCooldown) { this.biteCooldown = 1500; }
         if (!this.lastBiteTime) { this.lastBiteTime = 0; }
-        let now = Date.now();
+        let now = GameManager.getCurrentTime();
         if (now - this.lastBiteTime < this.biteCooldown) return;
         this.lastBiteTime = now;
         this.isAttacking = true;
@@ -198,14 +193,14 @@ class Character extends MovableObject {
     playFireAttackAnimation(images) {
         if (!this.fireCooldown) { this.fireCooldown = 5000; }
         if (!this.lastFireTime) { this.lastFireTime = 0; }
-        let now = Date.now();
+        let now = GameManager.getCurrentTime();
         if (now - this.lastFireTime < this.fireCooldown) return;
         this.lastFireTime = now;
         this.isAttacking = true;
         this.decreaseCounter("food", 1)
 
         this.playAnimationOnce(images, () => { this.playAnimationReset(); });
-        setTimeout(() => {
+        GameManager.addTimeout(() => {
             if (!this.world.fireball) {
                 this.world.fireball = new Fireball(this);
             }

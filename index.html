@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="./styles/ui_section_main.css">
     <link rel="stylesheet" href="./styles/ui_section_footer.css">
     <link rel="stylesheet" href="./styles/mediaquery.css">
+    <script src="./scripts/models/game-manager.class.js" defer></script>
+    <script src="./scripts/models/soundHub.class.js" defer></script>
     <script src="./scripts/models/drawable-object.class.js" defer></script>
     <script src="./scripts/models/movable-object.class.js" defer></script>
     <script src="./scripts/models/charakter/character.class.js" defer></script>
@@ -88,7 +90,7 @@
                             <td>right</td>
                         </tr>
                         <tr>
-                            <td>SPACE</td>
+                            <td>Space</td>
                             <td>/</td>
                             <td>⚔</td>
                             <td>=</td>
@@ -116,15 +118,12 @@
             <header>
                 <div class="header_div">
                     <label class="volume-control">
-                        <span>🔉</span>
-                        <input type="range" min="0" max="100" value="20">
+                        <span id='volumeImg'>🔉</span>
+                        <input type="range" id='volume' min=0 max=1 step=0.01 value='0.2'
+                            oninput="SoundHub.objSetVolume()">
                     </label>
-                    <button onclick="infoScreen()" id="buttonInfo" class="button_circle">i</button>
+                    <button id="buttonInfo" class="button_circle">i</button>
                     <button onclick="fullscreen()" id="buttonFullscreen" class="button_circle">⛶</button>
-                    <!--🔇 = 0 %
-                        🔈  = 1–35 %
-                        🔉  = 36–65 %
-                        🔊 = 66–100 % -->
                 </div>
             </header>
 

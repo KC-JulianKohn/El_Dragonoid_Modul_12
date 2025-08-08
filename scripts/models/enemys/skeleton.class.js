@@ -50,7 +50,7 @@ class Skeleton extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        GameManager.addInterval(() => {
             if (this.world.isPaused) return;
 
             if (!this.isDead() && this.x - this.world.character.x <= 1100) {
@@ -58,10 +58,10 @@ class Skeleton extends MovableObject {
             }
         }, 1000 / 60);
 
-        setInterval(() => {
+        GameManager.addInterval(() => {
             if (this.isDead()) {
                 if (this.world.isPaused) return;
-                
+
                 this.playDeadAnimation(this.images_dead);
             } else if (this.isHurt()) {
                 this.playAnimations(this.images_hurt);

@@ -81,7 +81,7 @@ class Fireball extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        GameManager.addInterval(() => {
             if (this.world.isPaused) return;
 
             if (!this.hasExploded && !this.explode()) {
@@ -89,7 +89,7 @@ class Fireball extends MovableObject {
             }
         }, 1000 / 60);
 
-        setInterval(() => {
+        GameManager.addInterval(() => {
             if (this.world.isPaused) return;
 
             if (!this.hasExploded) {
@@ -101,16 +101,16 @@ class Fireball extends MovableObject {
             }
         }, 100);
 
-        setInterval(() => {
+        GameManager.addInterval(() => {
             if (this.world.isPaused) return;
-            
+
             this.expandExplosion();
         }, 100);
     }
 
     expandExplosion() {
         if (this.hasExploded) {
-            let elapsed = Date.now() - this.explosionStart;
+            let elapsed = GameManager.getCurrentTime() - this.explosionStart;
             let progress = Math.min(elapsed / this.explosionGrowTime, 1);
 
             let newSize = this.originalSize + (this.explosionMaxSize - this.originalSize) * progress;
@@ -130,7 +130,7 @@ class Fireball extends MovableObject {
 
     triggerExplosion() {
         this.hasExploded = true;
-        this.explosionStart = Date.now();
+        this.explosionStart = GameManager.getCurrentTime();
         this.explosionMaxSize = 230;
         this.originalSize = this.width;
         this.explosionGrowTime = 1000;

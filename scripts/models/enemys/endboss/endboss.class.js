@@ -79,9 +79,9 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            if (this.isPaused) return;
 
+
+        GameManager.addInterval(() => {
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else if (this.isHurt()) {
@@ -124,6 +124,10 @@ class Endboss extends MovableObject {
 
         this.playMoveSetRun = true;
 
+        SoundHub.endOne(SoundHub.BACKGROUNDMUSIC);
+        SoundHub.playSoundLoop(SoundHub.BOSSFIGHT, 0.5);
+
+
         this.pausePhase(5000, () => {
             this.attackPhase(() => {
                 this.movePhase(() => {
@@ -138,7 +142,7 @@ class Endboss extends MovableObject {
 
     pausePhase(duration, callback) {
         this.currentPhase = 'pause';
-        setTimeout(() => {
+        GameManager.addTimeout(() => {
             callback();
         }, duration);
     }
@@ -148,8 +152,7 @@ class Endboss extends MovableObject {
         let distanceMoved = 0;
 
         let interval = setInterval(() => {
-            if (this.isPaused) return;
-
+            if (GameManager.isPaused) return;
             if (this.isDead()) {
                 clearInterval(interval);
                 return;

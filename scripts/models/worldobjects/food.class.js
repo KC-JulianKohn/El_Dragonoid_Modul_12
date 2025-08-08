@@ -11,7 +11,7 @@ class Food extends DrawableObject {
     }
 
     animateFloating() {
-        setInterval(() => {
+        GameManager.addInterval(() => {
             this.y += this.speedY;
 
             if (this.y <= 380 || this.y >= 400) {

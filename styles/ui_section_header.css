@@ -19,15 +19,20 @@ header {
 .volume-control {
     margin-right: 15px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     background-color: rgba(61, 61, 61, 0.800);
     border-radius: 50px;
     font-size: 28px;
     height: 40px;
-    width: 145px;
+    width: 150px;
 }
 
-input {
+.volume-control span {
+    margin-left: 10px;
+}
+
+.volume-control input {
+    margin-right: 10px;
     width: 80px;
 }

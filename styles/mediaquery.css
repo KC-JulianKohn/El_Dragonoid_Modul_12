@@ -61,7 +61,7 @@
         width: 115px;
     }
 
-    input {
+    .volume-control input {
         width: 60px;
     }
 }

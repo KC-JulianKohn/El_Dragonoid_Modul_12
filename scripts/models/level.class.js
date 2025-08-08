@@ -3,6 +3,7 @@ class Level {
     backgroundObjects;
     treasure;
     food;
+    world;
     level_end_x = 5000;
 
     constructor(enemies, backgroundObjects, treasure, food) {

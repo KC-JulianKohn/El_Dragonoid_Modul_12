@@ -10,11 +10,12 @@ function init() {
     level1 = getFreshLevel1();
     world = new World(canvas, keyboard);
     displayWarning();
-    world.pauseGame();
+    GameManager.pauseGame();
+    SoundHub.objSetVolume();
 }
 
 function displayWarning() {
-    setInterval(() => {
+    GameManager.addInterval(() => {
         if (window.innerWidth < window.innerHeight) {
             document.getElementById('displayPositionWarning').classList.remove('hide');
         } else {
@@ -40,11 +41,11 @@ function fullscreen() {
 function openFullscreen(elem) {
     if (elem.requestFullscreen) {
         elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Mozilla */
+    } else if (elem.mozRequestFullScreen) {
         elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Safari */
+    } else if (elem.webkitRequestFullscreen) {
         elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE11 */
+    } else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
     }
 }
@@ -52,18 +53,19 @@ function openFullscreen(elem) {
 function closeFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) { /* Mozilla */
+    } else if (document.mozCancelFullScreen) {
         document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) { /* Safari */
+    } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE11 */
+    } else if (document.msExitFullscreen) {
         document.msExitFullscreen();
     }
 }
 
 function startGame() {
     gameStart = true;
-    world.resumeGame();
+    GameManager.resumeGame();
+    SoundHub.playSoundLoop(SoundHub.BACKGROUNDMUSIC, 0.5);
     document.getElementById('mainDiv').classList.add('hide');
     document.getElementById('backgroundStart').classList.add('hide');
     if (window.innerWidth < 920 || window.innerHeight < 480) {
@@ -75,10 +77,11 @@ function startGame() {
 function infoScreen() {
     if (infoScreenOn) {
         // ausschalten
+        // SoundHub.resumeAll();
         document.getElementById('infoScreen').classList.add('hide');
         infoScreenOn = false;
-        if (world.isPaused && gameStart) {
-            world.isPaused = false;
+        if (GameManager.isPaused && gameStart) {
+            GameManager.resumeGame();
         }
         if (!gameStart) {
             document.getElementById('mainDiv').classList.remove('hide');
@@ -90,8 +93,9 @@ function infoScreen() {
         }
     } else {
         // einschalten
+        GameManager.pauseGame();
+        // SoundHub.pauseAll();
         infoScreenOn = true;
-        world.isPaused = true;
         document.getElementById('infoScreen').classList.remove('hide');
         if (!gameStart) {
             document.getElementById('mainDiv').classList.add('hide');
@@ -105,7 +109,10 @@ function infoScreen() {
 }
 
 function gameOverScreen() {
-    setTimeout(() => {
+    SoundHub.playSoundOne(SoundHub.GAMEOVER2, 0.7);
+    SoundHub.clearAll();
+    GameManager.addTimeout(() => {
+        SoundHub.playSoundOne(SoundHub.GAMEOVER1, 0.7);
         document.getElementById('backgroundGameOver').classList.remove('hide');
 
         document.getElementById('uiBackgroundSection').classList.add('background_color');
@@ -115,12 +122,14 @@ function gameOverScreen() {
         document.getElementById('buttonInfo').classList.add('hide');
         document.getElementById('buttonFullscreen').classList.add('hide');
 
-        world.pauseGame();
+        GameManager.pauseGame();
     }, 2500);
 }
 
 function winScreen() {
-    setTimeout(() => {
+    GameManager.addTimeout(() => {
+        SoundHub.clearAll();
+        SoundHub.playSoundOne(SoundHub.WIN, 0.7);
         document.getElementById('backgroundWin').classList.remove('hide');
 
         document.getElementById('uiBackgroundSection').classList.add('background_color');
@@ -130,7 +139,7 @@ function winScreen() {
         document.getElementById('buttonInfo').classList.add('hide');
         document.getElementById('buttonFullscreen').classList.add('hide');
 
-        world.pauseGame();
+        GameManager.pauseGame();
     }, 2500);
 }
 
@@ -148,3 +157,16 @@ function resetGame() {
     world = null;
     init();
 }
+
+window.addEventListener('load', () => {
+    const infoBtn = document.getElementById('buttonInfo');
+    if (infoBtn) {
+        infoBtn.addEventListener('click', infoScreen);
+
+        infoBtn.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+            }
+        });
+    }
+});

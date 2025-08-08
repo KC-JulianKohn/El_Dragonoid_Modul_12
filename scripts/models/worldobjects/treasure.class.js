@@ -13,7 +13,7 @@ class Treasure extends DrawableObject {
     }
 
     animateFloating() {
-        setInterval(() => {
+        GameManager.addInterval(() => {
             this.y += this.speedY;
 
             if (this.y <= 60 || this.y >= this.randomY) {

@@ -21,6 +21,7 @@ class MovableObject extends DrawableObject {
 
             let i = 0;
             let interval = setInterval(() => {
+                if (GameManager.isPaused) return;
                 if (i < images.length) {
                     this.img = this.imageCache[images[i]];
                     i++;
@@ -40,7 +41,7 @@ class MovableObject extends DrawableObject {
 
     playDeadAnimation(images) {
         this.playAnimationOnce(images, () => {
-            setTimeout(() => {
+            GameManager.addTimeout(() => {
                 this.y += 3000;
             }, 1500);
         });

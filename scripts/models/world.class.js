@@ -1,5 +1,4 @@
 class World {
-    isPaused = false;
     level = level1;
     canvas;
     ctx;
@@ -23,14 +22,6 @@ class World {
         this.checkAll();
     }
 
-    pauseGame() {
-        this.isPaused = true;
-    }
-
-    resumeGame() {
-        this.isPaused = false;
-    }
-
     setWorld() {
         this.character.world = this;
         this.level.enemies.forEach(enemy => {
@@ -42,13 +33,14 @@ class World {
     }
 
     checkAll() {
-        setInterval(() => {
+        GameManager.addInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (!this.character.isAttacking && !enemy.isDead() && this.character.isColliding(enemy)) {
                     this.character.hit(enemy.damage);
                     this.healthBar.setPercentage(this.character.health);
                     if (!this.gameEnd) {
                         if (this.character.isDead()) {
+                            SoundHub.playSoundOne(SoundHub.DRAGONDEAD, 0.7);
                             this.gameEnd = true;
                             gameOverScreen();
                         }
@@ -59,9 +51,18 @@ class World {
                 }
                 if (!enemy.isHurt() && !enemy.isDead()) {
                     if (this.fireball && !this.fireball.hasExploded && this.fireball.isColliding(enemy)) {
+                        SoundHub.playSoundOne(SoundHub.EXPLOSION, 0.8);
                         this.fireball.triggerExplosion();
 
                         if (!enemy.isAttacking) {
+                            enemy.hit(this.fireball.damage);
+                        }
+                    }
+                }
+                if (this.fireball && this.fireball.hasExploded) {
+                    if (!enemy.isHurt() && !enemy.isDead() && this.fireball.isColliding(enemy)) {
+                        if (!enemy.hasBeenHitByExplosion) {
+                            enemy.hasBeenHitByExplosion = true;
                             enemy.hit(this.fireball.damage);
                         }
                     }
@@ -81,6 +82,7 @@ class World {
                     this.level.level_end_x = enemy.x + 10;
                     if (!this.gameEnd) {
                         if (enemy.isDead()) {
+                            SoundHub.playSoundOne(SoundHub.KNIGHTDEAD, 0.5);
                             this.gameEnd = true;
                             winScreen();
                         }
