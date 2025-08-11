@@ -6,8 +6,11 @@ class Endboss extends MovableObject {
     x = 5250;
     health = 999999;
     damage = 15;
-    speed = 0.5;
+    speed = 2;
+    localTimeouts = [];
+    localIntervals = [];
     spawnTime = new Date().getTime();
+    wasHurtBefore = false;
     playMoveSetRun = false;
     activated = false;
     immortal = true;
@@ -79,13 +82,16 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-
-
-        GameManager.addInterval(() => {
+        this.addLocalInterval(() => {
+            let currentlyHurt = this.isHurt();
             if (this.isDead()) {
+                this.playMoveSetRun = false;
                 this.playDeadAnimation(this.images_dead);
-            } else if (this.isHurt()) {
+            } else if (currentlyHurt) {
                 this.playAnimations(this.images_hurt);
+                if (!this.wasHurtBefore) {
+                    SoundHub.playSoundOne(SoundHub.BOSSHURT, 0.8);
+                }
             } else
                 switch (this.currentPhase) {
                     case 'pause':
@@ -100,6 +106,7 @@ class Endboss extends MovableObject {
                         this.playAnimations(this.images_idle);
                         break;
                 }
+            this.wasHurtBefore = currentlyHurt;
         }, 250);
     }
 
@@ -108,11 +115,8 @@ class Endboss extends MovableObject {
             this.immortal = false;
             this.health = 50;
         }
-
         if (this.activated) return;
-
         let timePassed = new Date().getTime() - this.spawnTime;
-
         if (this.x - character.x <= 650 || timePassed >= 7 * 60 * 1000) {
             this.activated = true;
             this.playMoveSet();
@@ -120,14 +124,10 @@ class Endboss extends MovableObject {
     }
 
     playMoveSet() {
-        if (this.playMoveSetRun) return;
-
+        if (this.playMoveSetRun && !this.activated) return;
         this.playMoveSetRun = true;
-
         SoundHub.endOne(SoundHub.BACKGROUNDMUSIC);
-        SoundHub.playSoundLoop(SoundHub.BOSSFIGHT, 0.5);
-
-
+        SoundHub.playSoundLoop(SoundHub.BOSSFIGHT, 0.4);
         this.pausePhase(5000, () => {
             this.attackPhase(() => {
                 this.movePhase(() => {
@@ -142,12 +142,11 @@ class Endboss extends MovableObject {
 
     pausePhase(duration, callback) {
         this.currentPhase = 'pause';
-        GameManager.addTimeout(() => {
-            callback();
-        }, duration);
+        this.addLocalTimeout(callback, duration);
     }
 
     movePhase(callback) {
+        SoundHub.playSoundLoop(SoundHub.BOSSWALK, 0.7);
         this.currentPhase = 'move';
         let distanceMoved = 0;
 
@@ -157,30 +156,48 @@ class Endboss extends MovableObject {
                 clearInterval(interval);
                 return;
             }
-
             if (this.isHurt()) return;
-
             this.moveLeft();
             distanceMoved += this.speed;
-
-            if (distanceMoved >= 150) {
+            if (distanceMoved >= 300) {
                 clearInterval(interval);
                 callback();
             }
         }, 1000 / 60);
+        this.localIntervals.push(interval);
     }
 
     attackPhase(callback) {
+        SoundHub.endOne(SoundHub.BOSSWALK);
+        SoundHub.playSoundOne(SoundHub.BOSSATTACK, 0.7);
         this.currentPhase = 'attack';
         this.isAttacking = true;
         this.originalHitbox = { ...this.hitbox };
         this.hitbox.left = this.originalHitbox.right - 55;
         this.hitbox.top = this.originalHitbox.top - 220;
-
         this.playAnimationOnce(this.images_attack, () => {
             this.hitbox = this.originalHitbox;
             this.playAnimationReset();
             if (callback) callback();
         });
+    }
+
+    addLocalTimeout(callback, delay) {
+        let id = GameManager.addTimeout(callback, delay);
+        this.localTimeouts.push(id);
+        return id;
+    }
+
+    addLocalInterval(callback, delay) {
+        let id = GameManager.addInterval(callback, delay);
+        this.localIntervals.push(id);
+        return id;
+    }
+
+    clearLocalTimers() {
+        this.localTimeouts.forEach(id => clearTimeout(id));
+        this.localIntervals.forEach(id => clearInterval(id));
+        this.localTimeouts = [];
+        this.localIntervals = [];
     }
 }

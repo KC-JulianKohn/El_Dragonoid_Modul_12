@@ -2,6 +2,8 @@ class GameManager {
     static intervalIds = [];
     static timeoutIds = [];
     static isPaused = false;
+    static gameStart = false;
+    static gameEnd = false;
     static pauseStart = 0;
     static totalPausedTime = 0;
     static startTime = Date.now();

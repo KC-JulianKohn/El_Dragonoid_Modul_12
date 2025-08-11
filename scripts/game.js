@@ -1,7 +1,6 @@
 let canvas;
 let world;
 let keyboard;
-let gameStart = false;
 let infoScreenOn = false;
 
 function init() {
@@ -15,7 +14,7 @@ function init() {
 }
 
 function displayWarning() {
-    GameManager.addInterval(() => {
+    setInterval(() => {
         if (window.innerWidth < window.innerHeight) {
             document.getElementById('displayPositionWarning').classList.remove('hide');
         } else {
@@ -63,7 +62,7 @@ function closeFullscreen() {
 }
 
 function startGame() {
-    gameStart = true;
+    GameManager.gameStart = true;
     GameManager.resumeGame();
     SoundHub.playSoundLoop(SoundHub.BACKGROUNDMUSIC, 0.5);
     document.getElementById('mainDiv').classList.add('hide');
@@ -77,13 +76,12 @@ function startGame() {
 function infoScreen() {
     if (infoScreenOn) {
         // ausschalten
-        // SoundHub.resumeAll();
         document.getElementById('infoScreen').classList.add('hide');
         infoScreenOn = false;
-        if (GameManager.isPaused && gameStart) {
+        if (GameManager.isPaused && GameManager.gameStart) {
             GameManager.resumeGame();
         }
-        if (!gameStart) {
+        if (!GameManager.gameStart) {
             document.getElementById('mainDiv').classList.remove('hide');
             document.getElementById('backgroundStart').classList.remove('hide');
         }
@@ -94,10 +92,9 @@ function infoScreen() {
     } else {
         // einschalten
         GameManager.pauseGame();
-        // SoundHub.pauseAll();
         infoScreenOn = true;
         document.getElementById('infoScreen').classList.remove('hide');
-        if (!gameStart) {
+        if (!GameManager.gameStart) {
             document.getElementById('mainDiv').classList.add('hide');
             document.getElementById('backgroundStart').classList.add('hide');
         }
@@ -110,8 +107,10 @@ function infoScreen() {
 
 function gameOverScreen() {
     SoundHub.playSoundOne(SoundHub.GAMEOVER2, 0.7);
-    SoundHub.clearAll();
     GameManager.addTimeout(() => {
+        GameManager.pauseGame();
+        SoundHub.clearAll();
+        GameManager.gameEnd = true;
         SoundHub.playSoundOne(SoundHub.GAMEOVER1, 0.7);
         document.getElementById('backgroundGameOver').classList.remove('hide');
 
@@ -121,14 +120,14 @@ function gameOverScreen() {
         document.getElementById('footerAttackbuttonDiv').classList.add('hide');
         document.getElementById('buttonInfo').classList.add('hide');
         document.getElementById('buttonFullscreen').classList.add('hide');
-
-        GameManager.pauseGame();
     }, 2500);
 }
 
 function winScreen() {
     GameManager.addTimeout(() => {
+        GameManager.pauseGame();
         SoundHub.clearAll();
+        GameManager.gameEnd = true;
         SoundHub.playSoundOne(SoundHub.WIN, 0.7);
         document.getElementById('backgroundWin').classList.remove('hide');
 
@@ -138,12 +137,18 @@ function winScreen() {
         document.getElementById('footerAttackbuttonDiv').classList.add('hide');
         document.getElementById('buttonInfo').classList.add('hide');
         document.getElementById('buttonFullscreen').classList.add('hide');
-
-        GameManager.pauseGame();
     }, 2500);
 }
 
 function resetGame() {
+    SoundHub.clearAll();
+    if (world && world.level && world.level.enemies) {
+        world.level.enemies.forEach(enemy => {
+            if (enemy instanceof Endboss) {
+                enemy.clearLocalTimers();
+            }
+        });
+    }
     document.getElementById('backgroundWin').classList.add('hide');
     document.getElementById('backgroundGameOver').classList.add('hide');
     document.getElementById('uiBackgroundSection').classList.remove('background_color');
@@ -152,7 +157,8 @@ function resetGame() {
     document.getElementById('buttonFullscreen').classList.remove('hide');
     document.getElementById('mainDiv').classList.remove('hide');
     document.getElementById('backgroundStart').classList.remove('hide');
-    gameStart = false;
+    GameManager.gameStart = false;
+    GameManager.gameEnd = false;
     infoScreenOn = false;
     world = null;
     init();

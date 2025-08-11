@@ -1,5 +1,6 @@
 class SoundHub {
     static BOSSATTACK = "./assets/sounds/boss_attack.mp3";
+    static BOSSHURT = "./assets/sounds/boss_hurt.mp3";
     static BOSSWALK = "./assets/sounds/boss_walk.mp3";
     static DRAGONBITE = "./assets/sounds/dragon_bite.mp3";
     static DRAGONBREATH = "./assets/sounds/dragon_breath.mp3";
@@ -48,8 +49,7 @@ class SoundHub {
     }
 
     static playSoundLoop(src, baseVolume) {
-        if (SoundHub.activeLoops.has(src)) return;
-
+        if (SoundHub.activeLoops.has(src) || SoundHub.loadIntervals.has(src)) return;
         let sound = new Audio(src);
         sound.baseVolume = baseVolume
         sound.volume = baseVolume * parseFloat(document.getElementById('volume').value);
@@ -58,12 +58,14 @@ class SoundHub {
         sound.load();
         let check = setInterval(() => {
             if (sound.readyState >= 3) {
+                sound.currentTime = 0;
                 clearInterval(check);
                 SoundHub.loadIntervals.delete(src);
                 sound.play();
                 SoundHub.activeLoops.set(src, sound);
             }
         }, 100);
+        SoundHub.loadIntervals.set(src, { check, sound });
     }
 
     static endOne(src) {

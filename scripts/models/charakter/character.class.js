@@ -11,7 +11,7 @@ class Character extends MovableObject {
 
     hitbox = {
         left: 40,
-        right: 40,
+        right: 55,
         top: 190,
         bottom: 0
     };
@@ -168,7 +168,7 @@ class Character extends MovableObject {
             } else {
                 this.hitbox.bottom = 0;
                 this.hitbox.top = 190;
-                this.hitbox.right = 40;
+                this.hitbox.right = 55;
             }
         }
     }
@@ -182,8 +182,8 @@ class Character extends MovableObject {
         this.isAttacking = true;
 
         this.originalHitbox = { ...this.hitbox };
-        this.hitbox.right = this.originalHitbox.left - 25;
-
+        this.hitbox.right = this.originalHitbox.left - 20;
+        SoundHub.playSoundOne(SoundHub.DRAGONBITE, 0.7);
         this.playAnimationOnce(images, () => {
             this.playAnimationReset();
             this.hitbox = this.originalHitbox;
@@ -198,7 +198,7 @@ class Character extends MovableObject {
         this.lastFireTime = now;
         this.isAttacking = true;
         this.decreaseCounter("food", 1)
-
+        SoundHub.playSoundOne(SoundHub.DRAGONBREATHINGFIRE, 0.5);
         this.playAnimationOnce(images, () => { this.playAnimationReset(); });
         GameManager.addTimeout(() => {
             if (!this.world.fireball) {
@@ -217,5 +217,10 @@ class Character extends MovableObject {
         this.isFlight = false;
         this.isWalk = true;
         this.playAnimationOnce(images, () => { this.playAnimationReset(); });
+    }
+
+    isHurt() {
+        let timepassed = Date.now() - this.lastHit;
+        return timepassed < 1000;
     }
 }

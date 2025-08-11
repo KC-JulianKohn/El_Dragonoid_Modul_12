@@ -1,7 +1,7 @@
 class Knight_3 extends MovableObject {
-
+    isWalkingSoundPlaying = false;
     hitbox = {
-        left: 70,
+        left: 75,
         right: 10,
         top: 55,
         bottom: 0
@@ -42,21 +42,35 @@ class Knight_3 extends MovableObject {
     animate() {
         GameManager.addInterval(() => {
             if (this.world.isPaused) return;
-
             if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
+                this.startWalkingSound();
+            } else if (this.isDead()) {
+                this.stopWalkingSound();
             }
         }, 1000 / 60);
 
         GameManager.addInterval(() => {
             if (this.world.isPaused) return;
-
             if (this.isDead()) {
-
                 this.playDeadAnimation(this.images_dead);
-            } else
+            } else {
                 this.playAnimations(this.images_walk);
+            }
         }, 250);
     }
 
+    startWalkingSound() {
+        if (!this.isWalkingSoundPlaying) {
+            SoundHub.playSoundLoop(SoundHub.KNIGHTWALK, 0.4);
+            this.isWalkingSoundPlaying = true;
+        }
+    }
+
+    stopWalkingSound() {
+        if (this.isWalkingSoundPlaying) {
+            SoundHub.endOne(SoundHub.KNIGHTWALK);
+            this.isWalkingSoundPlaying = false;
+        }
+    }
 }

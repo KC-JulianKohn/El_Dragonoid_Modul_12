@@ -1,5 +1,6 @@
 class Skeleton extends MovableObject {
-
+    isWalkingSoundPlaying = false;
+    wasHurtBefore = false;
     height = 150;
     width = 150;
     y = 290;
@@ -52,22 +53,43 @@ class Skeleton extends MovableObject {
     animate() {
         GameManager.addInterval(() => {
             if (this.world.isPaused) return;
-
             if (!this.isDead() && this.x - this.world.character.x <= 1100) {
                 this.moveLeft();
+                this.startWalkingSound();
+            } else if (this.isDead()) {
+                this.stopWalkingSound();
             }
         }, 1000 / 60);
 
         GameManager.addInterval(() => {
+            if (this.world.isPaused) return;
+            let currentlyHurt = this.isHurt();
             if (this.isDead()) {
-                if (this.world.isPaused) return;
-
                 this.playDeadAnimation(this.images_dead);
-            } else if (this.isHurt()) {
+            } else if (currentlyHurt) {
                 this.playAnimations(this.images_hurt);
-            } else
+                if (!this.wasHurtBefore) {
+                    SoundHub.playSoundOne(SoundHub.SKELETONDEAD, 0.4);
+                }
+            } else {
                 this.playAnimations(this.images_walk);
+            }
+            this.wasHurtBefore = currentlyHurt;
+
         }, 250);
     }
 
+    startWalkingSound() {
+        if (!this.isWalkingSoundPlaying) {
+            SoundHub.playSoundLoop(SoundHub.SELETONWALK, 0.2);
+            this.isWalkingSoundPlaying = true;
+        }
+    }
+
+    stopWalkingSound() {
+        if (this.isWalkingSoundPlaying) {
+            SoundHub.endOne(SoundHub.SELETONWALK);
+            this.isWalkingSoundPlaying = false;
+        }
+    }
 }

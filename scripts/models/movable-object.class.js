@@ -6,7 +6,6 @@ class MovableObject extends DrawableObject {
     damage = 5;
     invisibility = 1;
 
-
     playAnimations(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -64,6 +63,7 @@ class MovableObject extends DrawableObject {
     }
 
     hit(damage) {
+        if (this.isHurt()) return;
         this.health -= damage;
         if (this.health < 0) {
             this.health = 0;

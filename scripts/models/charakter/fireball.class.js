@@ -103,7 +103,6 @@ class Fireball extends MovableObject {
 
         GameManager.addInterval(() => {
             if (this.world.isPaused) return;
-
             this.expandExplosion();
         }, 100);
     }

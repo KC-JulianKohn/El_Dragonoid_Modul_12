@@ -68,6 +68,12 @@ class World {
                     }
                 }
                 if (enemy.isDead() && !enemy.countedAsKill) {
+                    if (enemy instanceof Knight_1 || enemy instanceof Knight_2 || enemy instanceof Knight_3) { 
+                        SoundHub.playSoundOne(SoundHub.KNIGHTDEAD, 0.5);
+                    }
+                    if (enemy instanceof Skeleton) { 
+                        SoundHub.playSoundOne(SoundHub.SKELETONDEAD, 0.7);
+                    }
                     enemy.countedAsKill = true;
                     this.character.increaseCounter("kills", 1);
                     this.deadcounter.setCount(this.character.counters.kills);
@@ -93,6 +99,7 @@ class World {
             this.level.treasure.forEach((treasure) => {
                 this.treasurecounter.setCount(this.character.counters.treasure);
                 if (this.character.isColliding(treasure)) {
+                    SoundHub.playSoundOne(SoundHub.TREASURE, 0.7);
                     treasure.y += 3000;
                     this.character.increaseCounter("treasure", 1);
                 }
@@ -101,6 +108,7 @@ class World {
             this.level.food.forEach((food) => {
                 this.foodcounter.setCount(this.character.counters.food);
                 if (this.character.isColliding(food)) {
+                    SoundHub.playSoundOne(SoundHub.FOOD, 0.9);
                     food.y += 3000;
                     this.character.increaseCounter("food", 1);
                 }
@@ -140,8 +148,8 @@ class World {
         if (mo.otherDirection) { this.flipImage(mo); }
 
         mo.draw(this.ctx);
-        // mo.drawFrame(this.ctx);
-        // mo.drawFrameHitBox(this.ctx);
+        mo.drawFrame(this.ctx);
+        mo.drawFrameHitBox(this.ctx);
 
         if (mo.otherDirection) { this.flipImageBack(mo); }
     }
