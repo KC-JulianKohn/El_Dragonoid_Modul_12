@@ -60,27 +60,27 @@ class DrawableObject {
         this.currentlycount = count
     }
 
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Fireball) {
-            ctx.beginPath();
-            ctx.lineWidth = "4";
-            ctx.strokeStyle = "green";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
+    // drawFrame(ctx) {
+    //     if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Fireball) {
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "4";
+    //         ctx.strokeStyle = "green";
+    //         ctx.rect(this.x, this.y, this.width, this.height);
+    //         ctx.stroke();
+    //     }
+    // }
 
-    drawFrameHitBox(ctx) {
-        if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Treasure || this instanceof Food || this instanceof Fireball) {
-            ctx.beginPath();
-            ctx.lineWidth = "2";
-            ctx.strokeStyle = "red";
-            ctx.rect(
-                this.x + this.hitbox.left,
-                this.y + this.hitbox.top,
-                this.width - this.hitbox.left - this.hitbox.right,
-                this.height - this.hitbox.top - this.hitbox.bottom
-            ); ctx.stroke();
-        }
-    }
+    // drawFrameHitBox(ctx) {
+    //     if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Treasure || this instanceof Food || this instanceof Fireball) {
+    //         ctx.beginPath();
+    //         ctx.lineWidth = "2";
+    //         ctx.strokeStyle = "red";
+    //         ctx.rect(
+    //             this.x + this.hitbox.left,
+    //             this.y + this.hitbox.top,
+    //             this.width - this.hitbox.left - this.hitbox.right,
+    //             this.height - this.hitbox.top - this.hitbox.bottom
+    //         ); ctx.stroke();
+    //     }
+    // }
 }
