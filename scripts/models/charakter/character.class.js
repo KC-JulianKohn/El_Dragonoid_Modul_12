@@ -96,7 +96,6 @@ class Character extends MovableObject {
         './assets/img/2_character_dragon/9_dead/dead_02.png'
     ];
 
-
     constructor() {
         super().loadImage('./assets/img/2_character_dragon/2_walk/walk_00.png');
         this.loadImages(this.images_idle);
@@ -113,7 +112,9 @@ class Character extends MovableObject {
 
     animate() {
         GameManager.addInterval(() => {
-            this.setFlightHitbox();
+            this.idleCheckSound();
+            this.flightCheck();
+            this.walkCheckSound();
             if (this.isControllable) {
                 if (this.world.keyboard.UP && this.y > -50 && this.isFlight) {
                     this.moveUp();
@@ -137,6 +138,7 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         GameManager.addInterval(() => {
+            let currentlyHurt = this.isHurt();
             if (this.isDead()) {
                 this.playDeadAnimation(this.images_dead);
             } else if (this.world.keyboard.UP && !this.isFlight) {
@@ -145,8 +147,11 @@ class Character extends MovableObject {
                 this.playLandingAnimation(this.images_landing);
             } else if (this.isFlight && !this.isWalk) {
                 this.playAnimations(this.images_flight);
-            } else if (this.isHurt()) {
+            } else if (currentlyHurt) {
                 this.playAnimations(this.images_hurt);
+                if (!this.wasHurtBefore) {
+                    SoundHub.playSoundOne(SoundHub.DRAGONHURT, 0.8);
+                }
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimations(this.images_walk);
             } else if (this.world.keyboard.SPACE) {
@@ -156,19 +161,41 @@ class Character extends MovableObject {
             } else {
                 this.playAnimations(this.images_idle);
             }
+            this.wasHurtBefore = currentlyHurt;
         }, 150);
     }
 
-    setFlightHitbox() {
+    idleCheckSound() {
+        if (this.y >= 140 && !this.isDead() && !this.isHurt() && !this.world.keyboard.LEFT && !this.world.keyboard.RIGHT && !this.world.keyboard.UP && !this.world.keyboard.DOWN && !this.world.keyboard.SPACE && !this.world.keyboard.F) {
+            SoundHub.playSoundLoop(SoundHub.DRAGONBREATH, 0.2);
+        } else {
+            SoundHub.endOne(SoundHub.DRAGONBREATH);
+        }
+    }
+
+
+    flightCheck() {
         if (!this.isAttacking) {
             if (this.y < 140) {
+                SoundHub.playSoundLoop(SoundHub.DRAGONFLY, 1);
                 this.hitbox.bottom = 110;
                 this.hitbox.top = 120;
                 this.hitbox.right = 20;
             } else {
+                SoundHub.endOne(SoundHub.DRAGONFLY);
                 this.hitbox.bottom = 0;
                 this.hitbox.top = 190;
                 this.hitbox.right = 55;
+            }
+        }
+    }
+
+    walkCheckSound() {
+        if (this.y >= 140) {
+            if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT) {
+                SoundHub.playSoundLoop(SoundHub.DRAGONWALK, 1);
+            } else {
+                SoundHub.endOne(SoundHub.DRAGONWALK);
             }
         }
     }
@@ -216,6 +243,7 @@ class Character extends MovableObject {
     playLandingAnimation(images) {
         this.isFlight = false;
         this.isWalk = true;
+        SoundHub.playSoundOne(SoundHub.DRAGONLANDING, 0.8);
         this.playAnimationOnce(images, () => { this.playAnimationReset(); });
     }
 
