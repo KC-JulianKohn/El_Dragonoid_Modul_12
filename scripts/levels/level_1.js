@@ -1,3 +1,7 @@
+/**
+ * Creates and returns a fresh Level 1 instance with all enemies, background objects, treasures, and food.
+ * @returns {Level} A new Level object fully initialized
+ */
 function getFreshLevel1() {
     return new Level(
         [
@@ -5,24 +9,19 @@ function getFreshLevel1() {
             new Knight_1(1450),
             new Knight_1(2450),
             new Knight_1(3450),
-
             new Knight_2(450),
             new Knight_2(1450),
             new Knight_2(2450),
             new Knight_2(3450),
-
             new Knight_3(450),
             new Knight_3(1450),
             new Knight_3(2450),
             new Knight_3(3450),
-
-
             new Skeleton(1450),
             new Skeleton(2450),
             new Skeleton(3450),
             new Skeleton(3750),
             new Skeleton(4250),
-
             new Endboss()
         ],
         [

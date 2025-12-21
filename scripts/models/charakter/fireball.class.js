@@ -1,12 +1,17 @@
 class Fireball extends MovableObject {
-
+    /** Horizontal speed of the fireball */
     speed = 6;
+    /** Vertical position */
     y = 360;
+    /** Fireball height */
     height = 100;
+    /** Fireball width */
     width = 150;
+    /** Damage inflicted on collision */
     damage = 10;
+    /** Explosion state flag */
     hasExploded = false;
-
+    /** Collision hitbox */
     hitbox = {
         left: 40,
         right: 40,
@@ -56,6 +61,7 @@ class Fireball extends MovableObject {
         './assets/img/6_fireball/1_fireball/fireball_38.png',
         './assets/img/6_fireball/1_fireball/fireball_39.png'
     ];
+
     images_explosion = [
         './assets/img/6_fireball/2_explosion/explosion_01.png',
         './assets/img/6_fireball/2_explosion/explosion_02.png',
@@ -70,6 +76,10 @@ class Fireball extends MovableObject {
         './assets/img/6_fireball/2_explosion/explosion_11.png'
     ];
 
+    /**
+     * Creates a fireball object based on the character.
+     * @param {Character} character - The character that spawns the fireball.
+     */
     constructor(character) {
         super().loadImage('./assets/img/6_fireball/1_fireball/fireball_00.png');
         this.loadImages(this.images_fireball);
@@ -80,53 +90,81 @@ class Fireball extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Main loop setup for movement, animation, and explosion growth.
+     */
     animate() {
-        GameManager.addInterval(() => {
-            if (this.world.isPaused) return;
-
-            if (!this.hasExploded && !this.explode()) {
-                this.moveRight();
-            }
-        }, 1000 / 60);
-
-        GameManager.addInterval(() => {
-            if (this.world.isPaused) return;
-
-            if (!this.hasExploded) {
-                this.playAnimations(this.images_fireball);
-            } else {
-                this.playAnimationOnce(this.images_explosion, () => {
-                    this.world.fireball = null;
-                });
-            }
-        }, 100);
-
-        GameManager.addInterval(() => {
-            if (this.world.isPaused) return;
-            this.expandExplosion();
-        }, 100);
+        GameManager.addInterval(() => this.handleMovement(), 1000 / 60);
+        GameManager.addInterval(() => this.handleAnimationFrames(), 100);
+        GameManager.addInterval(() => this.handleExplosionExpansion(), 100);
     }
 
+    /**
+     * Handles movement of the fireball if it hasn't exploded yet.
+     */
+    handleMovement() {
+        if (this.world.isPaused) return;
+        if (!this.hasExploded && !this.explode()) {
+            this.moveRight();
+        }
+    }
+
+    /**
+     * Handles animation frames depending on fireball state.
+     */
+    handleAnimationFrames() {
+        if (this.world.isPaused) return;
+        if (!this.hasExploded) {
+            this.playAnimations(this.images_fireball);
+        } else {
+            this.playExplosionAnimation();
+        }
+    }
+
+    /**
+     * Plays the explosion animation once and clears fireball reference.
+     */
+    playExplosionAnimation() {
+        this.playAnimationOnce(this.images_explosion, () => {
+            this.world.fireball = null;
+        });
+    }
+
+    /**
+     * Expands the explosion over time.
+     */
+    handleExplosionExpansion() {
+        if (this.world.isPaused) return;
+        this.expandExplosion();
+    }
+
+    /**
+     * Gradually increases the size of the explosion.
+     */
     expandExplosion() {
         if (this.hasExploded) {
             let elapsed = GameManager.getCurrentTime() - this.explosionStart;
             let progress = Math.min(elapsed / this.explosionGrowTime, 1);
-
             let newSize = this.originalSize + (this.explosionMaxSize - this.originalSize) * progress;
-
             this.x = this.x + (this.width - newSize) * 0.3;
             this.y = this.y + (this.height - newSize) / 2;
             this.width = newSize;
             this.height = newSize;
         }
     }
-
+    /**
+     * Checks collision with enemies to trigger explosion.
+     * @returns {boolean} True if collision detected.
+     */
     explode() {
         return this.world.level.enemies.some(enemy =>
             this.isColliding(enemy) && !enemy.isDead()
         );
     }
 
+    /**
+     * Initializes explosion parameters and stops fireball movement.
+     */
     triggerExplosion() {
         this.hasExploded = true;
         this.explosionStart = GameManager.getCurrentTime();

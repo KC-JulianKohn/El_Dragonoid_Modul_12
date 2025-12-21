@@ -1,5 +1,7 @@
 class Knight_2 extends MovableObject {
+    /** Tracks whether the walking sound is currently playing */
     isWalkingSoundPlaying = false;
+    /** Hitbox dimensions for collisions */
     hitbox = {
         left: 75,
         right: 10,
@@ -17,6 +19,7 @@ class Knight_2 extends MovableObject {
         './assets/img/3_enemies/night_2/1_walk/walk_06.png',
         './assets/img/3_enemies/night_2/1_walk/walk_07.png'
     ];
+
     images_dead = [
         './assets/img/3_enemies/night_2/2_dead/dead_00.png',
         './assets/img/3_enemies/night_2/2_dead/dead_01.png',
@@ -26,7 +29,10 @@ class Knight_2 extends MovableObject {
         './assets/img/3_enemies/night_2/2_dead/dead_05.png'
     ];
 
-
+    /**
+     * Creates a Knight_2 enemy instance at a randomized x position.
+     * @param {number} x - Base horizontal spawn position.
+     */
     constructor(x) {
         super().loadImage('./assets/img/3_enemies/night_2/1_walk/walk_00.png');
         this.loadImages(this.images_dead);
@@ -35,31 +41,49 @@ class Knight_2 extends MovableObject {
         this.speed = 0.15 + Math.random() * 0.35;
     }
 
+    /**
+    * Starts the enemy behavior.
+    */
     start() {
         this.animate();
     }
 
+    /**
+     * Registers movement and animation intervals.
+     */
     animate() {
-        GameManager.addInterval(() => {
-            if (this.world.isPaused) return;
-            if (!this.isDead() && this.x - this.world.character.x <= 1100) {
-                this.moveLeft();
-                this.startWalkingSound();
-            } else if (this.isDead()) {
-                this.stopWalkingSound();
-            }
-        }, 1000 / 60);
-
-        GameManager.addInterval(() => {
-            if (this.world.isPaused) return;
-            if (this.isDead()) {
-                this.playDeadAnimation(this.images_dead);
-            } else {
-                this.playAnimations(this.images_walk);
-            }
-        }, 250);
+        GameManager.addInterval(() => this.handleMovementInterval(), 1000 / 60);
+        GameManager.addInterval(() => this.handleAnimationInterval(), 250);
     }
 
+    /**
+     * Handles the movement and walking sound of the enemy.
+     */
+    handleMovementInterval() {
+        if (this.world.isPaused) return;
+        if (!this.isDead() && this.x - this.world.character.x <= 1100) {
+            this.moveLeft();
+            this.startWalkingSound();
+        } else if (this.isDead()) {
+            this.stopWalkingSound();
+        }
+    }
+
+    /**
+     * Handles the enemy animation frames based on state.
+     */
+    handleAnimationInterval() {
+        if (this.world.isPaused) return;
+        if (this.isDead()) {
+            this.playDeadAnimation(this.images_dead);
+        } else {
+            this.playAnimations(this.images_walk);
+        }
+    }
+
+    /**
+     * Plays the walking sound if not already playing.
+     */
     startWalkingSound() {
         if (!this.isWalkingSoundPlaying) {
             SoundHub.playSoundLoop(SoundHub.KNIGHTWALK, 0.4);
@@ -67,6 +91,9 @@ class Knight_2 extends MovableObject {
         }
     }
 
+    /**
+     * Stops the walking sound if currently playing.
+     */
     stopWalkingSound() {
         if (this.isWalkingSoundPlaying) {
             SoundHub.endOne(SoundHub.KNIGHTWALK);

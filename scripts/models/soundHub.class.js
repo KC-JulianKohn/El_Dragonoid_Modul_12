@@ -17,57 +17,88 @@ class SoundHub {
     static EXPLOSION = "./assets/sounds/explosion.mp3";
     static TREASURE = "./assets/sounds/treasure.mp3";
     static FOOD = "./assets/sounds/food.mp3";
-
     static BACKGROUNDMUSIC = "./assets/sounds/background/background_music.mp3";
     static BOSSFIGHT = "./assets/sounds/background/boss_fight.mp3";
-
     static GAMEOVER1 = "./assets/sounds/win_lose/game_over_1.mp3";
     static GAMEOVER2 = "./assets/sounds/win_lose/game_over_2.mp3";
     static WIN = "./assets/sounds/win_lose/win.mp3";
-
     static activeLoops = new Map();
     static loadIntervals = new Map();
 
+    /**
+     * Plays a single sound once.
+     * @param {string} src - Source path of the sound.
+     * @param {number} baseVolume - Base volume (0-1).
+     */
     static playSoundOne(src, baseVolume) {
         let sound = new Audio(src);
-        sound.baseVolume = baseVolume
+        sound.baseVolume = baseVolume;
         sound.volume = baseVolume * parseFloat(document.getElementById('volume').value);
         sound.preload = 'auto';
         sound.load();
         let check = setInterval(() => {
-            if (sound.readyState >= 3) {
-                sound.currentTime = 0;
-                clearInterval(check);
-                SoundHub.loadIntervals.delete(src);
-                sound.play();
-                SoundHub.activeLoops.set(src, sound);
-                sound.addEventListener('ended', () => {
-                    SoundHub.activeLoops.delete(src);
-                });
-            }
+            SoundHub.playSoundOneIntervalContent(src, sound, check);
         }, 100);
     }
 
+    /**
+     * Handles the interval content for playSoundOne.
+     * @param {string} src - Source path of the sound.
+     * @param {HTMLAudioElement} sound - Audio object.
+     * @param {number} check - Interval ID.
+     */
+    static playSoundOneIntervalContent(src, sound, check) {
+        if (sound.readyState >= 3) {
+            sound.currentTime = 0;
+            clearInterval(check);
+            SoundHub.loadIntervals.delete(src);
+            sound.play();
+            SoundHub.activeLoops.set(src, sound);
+            sound.addEventListener('ended', () => {
+                SoundHub.activeLoops.delete(src);
+            });
+        }
+    }
+
+    /**
+     * Plays a looping sound if not already active.
+     * @param {string} src - Source path of the sound.
+     * @param {number} baseVolume - Base volume (0-1).
+     */
     static playSoundLoop(src, baseVolume) {
         if (SoundHub.activeLoops.has(src) || SoundHub.loadIntervals.has(src)) return;
         let sound = new Audio(src);
-        sound.baseVolume = baseVolume
+        sound.baseVolume = baseVolume;
         sound.volume = baseVolume * parseFloat(document.getElementById('volume').value);
         sound.loop = true;
         sound.preload = 'auto';
         sound.load();
         let check = setInterval(() => {
-            if (sound.readyState >= 3) {
-                sound.currentTime = 0;
-                clearInterval(check);
-                SoundHub.loadIntervals.delete(src);
-                sound.play();
-                SoundHub.activeLoops.set(src, sound);
-            }
+            SoundHub.playSoundLoopIntervalContent(src, sound, check);
         }, 100);
         SoundHub.loadIntervals.set(src, { check, sound });
     }
 
+    /**
+     * Handles the interval content for playSoundLoop.
+     * @param {string} src - Source path of the sound.
+     * @param {HTMLAudioElement} sound - Audio object.
+     * @param {number} check - Interval ID.
+     */
+    static playSoundLoopIntervalContent(src, sound, check) {
+        if (sound.readyState >= 3) {
+            sound.currentTime = 0;
+            clearInterval(check);
+            SoundHub.loadIntervals.delete(src);
+            sound.play();
+            SoundHub.activeLoops.set(src, sound);
+        }
+    }
+
+    /**
+     * Stops a single looping sound.
+     * @param {string} src - Source path of the sound.
+     */
     static endOne(src) {
         let sound = SoundHub.activeLoops.get(src);
         if (sound) {
@@ -77,39 +108,62 @@ class SoundHub {
         }
     }
 
+    /**
+     * Pauses all currently active sounds.
+     */
     static pauseAll() {
         for (let [src, sound] of SoundHub.activeLoops) {
             sound.pause();
         }
     }
 
+    /**
+     * Resumes all paused sounds.
+     */
     static resumeAll() {
         for (let [src, sound] of SoundHub.activeLoops) {
             sound.play();
         }
     }
 
+    /**
+     * Clears all active loops and stops sounds.
+     */
     static clearAll() {
         this.pauseAll();
         this.activeLoops.clear();
     }
 
+    /**
+     * Updates volume for all active sounds based on the volume slider.
+     */
     static objSetVolume() {
         let volumeValue = parseFloat(document.getElementById('volume').value);
         for (let [, sound] of SoundHub.activeLoops) {
             sound.volume = volumeValue * (sound.baseVolume || 1);
         }
-
         let volumeImg = document.getElementById('volumeImg');
+        if (volumeValue === 0) volumeImg.innerHTML = '🔇';
+        else if (volumeValue > 0 && volumeValue <= 0.35) volumeImg.innerHTML = '🔈';
+        else if (volumeValue > 0.35 && volumeValue <= 0.65) volumeImg.innerHTML = '🔉';
+        else if (volumeValue > 0.65) volumeImg.innerHTML = '🔊';
+        SoundHub.saveVolume(volumeValue);
+    }
 
-        if (volumeValue === 0) {
-            volumeImg.innerHTML = '🔇';  // Stumm
-        } else if (volumeValue > 0 && volumeValue <= 0.35) {
-            volumeImg.innerHTML = '🔈';  // Leise
-        } else if (volumeValue > 0.35 && volumeValue <= 0.65) {
-            volumeImg.innerHTML = '🔉';  // Mittel
-        } else if (volumeValue > 0.65) {
-            volumeImg.innerHTML = '🔊';  // Laut
-        }
+    /**
+     * Saves the volume setting to localStorage.
+     * @param {number} value - Volume value (0-1).
+     */
+    static saveVolume(value) {
+        localStorage.setItem('soundVolume', value);
+    }
+
+    /**
+     * Loads the saved volume from localStorage.
+     * @returns {number} Volume value (0-1)
+     */
+    static loadVolume() {
+        let storedVolume = localStorage.getItem('soundVolume');
+        return storedVolume !== null ? Number(storedVolume) : 0.5;
     }
 }

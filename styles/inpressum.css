@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/img/5_background/international-mountain-day-9257122_1280.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.impressumSection {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(2, 255, 2);
+    background-color: rgba(37, 40, 37, 0.8);
+}
+
+a {
+    color: rgb(2, 255, 2);
+}

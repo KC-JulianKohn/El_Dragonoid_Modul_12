@@ -1,13 +1,22 @@
 class DrawableObject {
+    /** Default height of the drawable object */
     height = 120;
+    /** Default width of the drawable object */
     width = 120;
+    /** Horizontal position */
     x = 0;
+    /** Vertical position */
     y = 320;
+    /** Current image element */
     img;
+    /** Cache of loaded images */
     imageCache = {};
+    /** Index of current image in animation */
     currentImage = 0;
+    /** Generic count for display purposes */
     currentlycount = 0;
 
+    /** Hitbox offsets */
     hitbox = {
         left: 0,
         right: 0,
@@ -15,21 +24,34 @@ class DrawableObject {
         bottom: 0
     };
 
+    /** Counters for resources or kills */
     counters = {
         food: 1,
         treasure: 0,
         kills: 0
     };
 
+    /**
+     * Loads an image from the given path.
+     * @param {string} path - Path to the image file.
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    /**
+     * Draws the object on the provided canvas context.
+     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context.
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    /**
+     * Preloads an array of image paths into the cache.
+     * @param {string[]} arr - Array of image paths.
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -38,6 +60,11 @@ class DrawableObject {
         });
     }
 
+    /**
+     * Checks collision with another drawable object.
+     * @param {DrawableObject} mo - Another drawable object.
+     * @returns {boolean} True if colliding, false otherwise.
+     */
     isColliding(mo) {
         return this.x + this.width - this.hitbox.right > mo.x + mo.hitbox.left &&
             this.y + this.height - this.hitbox.bottom > mo.y + mo.hitbox.top &&
@@ -45,10 +72,20 @@ class DrawableObject {
             this.y + this.hitbox.top < mo.y + mo.height - mo.hitbox.bottom
     }
 
+    /**
+     * Increases a specific counter.
+     * @param {string} type - Counter type (e.g., 'food', 'treasure', 'kills').
+     * @param {number} amount - Amount to increase.
+     */
     increaseCounter(type, amount) {
         this.counters[type] += amount;
     }
 
+    /**
+     * Decreases a specific counter but not below zero.
+     * @param {string} type - Counter type.
+     * @param {number} amount - Amount to decrease.
+     */
     decreaseCounter(type, amount) {
         this.counters[type] -= amount;
         if (this.counters[type] < 0) {
@@ -56,31 +93,11 @@ class DrawableObject {
         }
     }
 
+    /**
+     * Sets the currently displayed count.
+     * @param {number} count - Count to set.
+     */
     setCount(count) {
         this.currentlycount = count
     }
-
-    // drawFrame(ctx) {
-    //     if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Fireball) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = "4";
-    //         ctx.strokeStyle = "green";
-    //         ctx.rect(this.x, this.y, this.width, this.height);
-    //         ctx.stroke();
-    //     }
-    // }
-
-    // drawFrameHitBox(ctx) {
-    //     if (this instanceof Character || this instanceof Knight_1 || this instanceof Knight_2 || this instanceof Knight_3 || this instanceof Skeleton || this instanceof Endboss || this instanceof Treasure || this instanceof Food || this instanceof Fireball) {
-    //         ctx.beginPath();
-    //         ctx.lineWidth = "2";
-    //         ctx.strokeStyle = "red";
-    //         ctx.rect(
-    //             this.x + this.hitbox.left,
-    //             this.y + this.hitbox.top,
-    //             this.width - this.hitbox.left - this.hitbox.right,
-    //             this.height - this.hitbox.top - this.hitbox.bottom
-    //         ); ctx.stroke();
-    //     }
-    // }
 }
