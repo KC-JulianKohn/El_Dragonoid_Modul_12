@@ -113,8 +113,10 @@ class Endboss extends MovableObject {
      */
     handleAnimationLoop() {
         let currentlyHurt = this.isHurt();
-        if (this.isDead() || currentlyHurt) {
-            this.handleHurtOrDeath(currentlyHurt);
+        if (this.isDead()) {
+            this.handleHurtOrDeath(false);
+        } else if (currentlyHurt) {
+            this.handleHurtOrDeath(true);
         } else {
             this.handlePhaseAnimations();
         }
@@ -220,20 +222,21 @@ class Endboss extends MovableObject {
      * @returns {number} Interval ID
      */
     createMoveInterval(distanceMoved, callback) {
-        return setInterval(() => {
+        let interval = setInterval(() => {
             if (GameManager.isPaused) return;
             if (this.isDead()) {
-                clearInterval(this);
+                clearInterval(interval);
                 return;
             }
             if (this.isHurt()) return;
             this.moveLeft();
             distanceMoved += this.speed;
             if (distanceMoved >= 300) {
-                clearInterval(this);
+                clearInterval(interval);
                 callback();
             }
         }, 1000 / 60);
+        return interval;
     }
 
     /**
@@ -250,6 +253,7 @@ class Endboss extends MovableObject {
         this.hitbox.top = this.originalHitbox.top - 220;
         this.playAnimationOnce(this.images_attack, () => {
             this.hitbox = this.originalHitbox;
+            this.isAttacking = false;
             this.playAnimationReset();
             if (callback) callback();
         });
